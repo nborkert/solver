@@ -7,7 +7,7 @@ goapp deploy -oauth -applciation driven-striker-752 solver
 
 Setting cron:
 
-See [https://cloud.google.com/appengine/docs/python/config/cron]
+See https://cloud.google.com/appengine/docs/python/config/cron
 
 ***
 
@@ -19,7 +19,7 @@ Use handlers in app.yaml files
 
 Organizing Go packages ("modules")
 
-See [https://cloud.google.com/appengine/docs/go/#Go_Organizing_Go_apps]
+See https://cloud.google.com/appengine/docs/go/#Go_Organizing_Go_apps
 
 ***
 Obtaining external data must use the AppEngine Fetch service
