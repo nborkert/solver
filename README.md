@@ -16,9 +16,9 @@ See https://cloud.google.com/appengine/docs/python/config/cron
 
 ***
 
-Specifying URL routes in Golang/AppEngine
+Specifying URL routes in Golang/AppEngine uses dispatch.yaml
 
-Use handlers in app.yaml files
+See https://cloud.google.com/appengine/docs/go/modules/routing
 
 ***
 
