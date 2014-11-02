@@ -13,4 +13,12 @@ See [https://cloud.google.com/appengine/docs/python/config/cron]
 
 Specifying URL routes in Golang/AppEngine
 
-need to find it
+Use handlers in app.yaml files
+
+***
+
+Organizing Go packages ("modules")
+
+See [https://cloud.google.com/appengine/docs/go/#Go_Organizing_Go_apps]
+
+
