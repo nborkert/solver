@@ -3,6 +3,7 @@ package webhandler
 import (
     "fmt"
     "net/http"
+//    "simple"
 )
 
 func init() {
@@ -10,5 +11,6 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "Solver2")
+    fmt.Fprint(w, "Solver")
+//    fmt.Fprint(w, simple.Echo())
 }
