@@ -1,8 +1,13 @@
 solver
 ======
-Deploy:
+Deploy (issue command from project source dir):
 
-goapp deploy -oauth -applciation driven-striker-752 solver
+goapp deploy -oauth -application driven-striker-752 solver
+***
+
+Testing locally (issue command from project source dir):
+
+goapp serve
 ***
 
 Setting cron:
