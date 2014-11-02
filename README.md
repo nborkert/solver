@@ -21,4 +21,9 @@ Organizing Go packages ("modules")
 
 See [https://cloud.google.com/appengine/docs/go/#Go_Organizing_Go_apps]
 
+***
+Obtaining external data must use the AppEngine Fetch service
+
+See https://cloud.google.com/appengine/docs/go/urlfetch
+
 
