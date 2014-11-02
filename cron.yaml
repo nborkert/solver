@@ -1,6 +1,6 @@
 cron:
 - description: Obtain data from FanDuel when new data is available
   url: /tasks/fanduelgetdata
-  schedule: 
+  schedule: every mon,tue 02:00  
   timezone: America/New_York
 
