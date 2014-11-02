@@ -6,4 +6,11 @@ goapp deploy -oauth -applciation driven-striker-752 solver
 ***
 
 Setting cron:
-More words here
+
+See [https://cloud.google.com/appengine/docs/python/config/cron]
+
+***
+
+Specifying URL routes in Golang/AppEngine
+
+need to find it
