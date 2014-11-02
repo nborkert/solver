@@ -16,13 +16,13 @@ See https://cloud.google.com/appengine/docs/python/config/cron
 
 ***
 
-Specifying URL routes in Golang/AppEngine uses dispatch.yaml
+Specifying URL routes in Golang/AppEngine uses dispatch.yaml if using modules
 
 See https://cloud.google.com/appengine/docs/go/modules/routing
 
 ***
 
-Organizing Go packages ("modules")
+Organizing modules, not used yet. Might not be needed.
 
 See https://cloud.google.com/appengine/docs/go/#Go_Organizing_Go_apps
 
