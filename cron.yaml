@@ -1,6 +1,6 @@
 cron:
 - description: Obtain data from FanDuel when new data is available
   url: /?action=getdata
-  schedule: every monday,tuesday 11:30  
+  schedule: every monday,tuesday 02:00  
   timezone: America/New_York
 
