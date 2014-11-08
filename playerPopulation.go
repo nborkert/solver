@@ -7,6 +7,6 @@ type Player struct {
 	ProjectedPoints int
 }
 
-func addPlayer (dataLine string) {
+func AddPlayer (dataLine string) {
 	//Expect format QB,Peyton Manning,10,30000
 }
