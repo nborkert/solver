@@ -1,4 +1,4 @@
-package webhandler
+package solver
 
 import (
     "fmt"
