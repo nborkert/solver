@@ -2,7 +2,6 @@ package solver
 
 import (
 	"strings"
-//	"fmt"
 	"strconv"
 )
 
@@ -19,7 +18,6 @@ var playersByPosition map[string][]Player
 
 func CreatePlayer (dataLine string) Player {
 	//Expect format QB,Peyton Manning,DEN,10,30000. Projected points could be decimal format
-//	fmt.Printf("%q\n", strings.Split(dataLine, ","))
 	playerData := strings.Split(dataLine, ",")
 	playerToAdd := Player{}
 	playerToAdd.Position = playerData[0]
@@ -29,7 +27,6 @@ func CreatePlayer (dataLine string) Player {
 	playerToAdd.Salary, _ = strconv.ParseInt(playerData[4], 0, 64)
 
 	return playerToAdd
-
 }
 
 func AddPlayerToPopulation (playerToAdd Player) int {
@@ -38,5 +35,4 @@ func AddPlayerToPopulation (playerToAdd Player) int {
 	}
 	playersByPosition[playerToAdd.Position] = append(playersByPosition[playerToAdd.Position], playerToAdd)
 	return len(playersByPosition[playerToAdd.Position])
-	//return playersByPosition[playerToAdd.Position].PlayerName
 }
