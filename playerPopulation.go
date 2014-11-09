@@ -13,8 +13,19 @@ type Player struct {
 	Salary int64
 }
 
-var playersByPosition map[string][]Player
 //map of position names to a slice of Player structs
+var playersByPosition map[string][]Player
+
+//we need an array of arrays of Player structs to have reliable behavior when creating rosters later
+var AllPlayers [][]Player
+
+func CreatePlayersArrays () [][]Player {
+	for position := range playersByPosition {
+		AllPlayers = append(AllPlayers, playersByPosition[position])
+	}
+	return AllPlayers
+
+}
 
 func CreatePlayer (dataLine string) Player {
 	//Expect format QB,Peyton Manning,DEN,10,30000. Projected points could be decimal format

@@ -43,6 +43,15 @@ func TestAddPlayer(t *testing.T) {
 	}
 
 	listOfPositions := GetPositions()
-	fmt.Printf("Positions are %v", listOfPositions)
+	fmt.Printf("Positions are %v\n", listOfPositions)
+
+	allPlayers := CreatePlayersArrays()
+	if allPlayers == nil {
+		t.Error("Expected non-nil, received nil for CreatePlayerArrays")
+	}
+
+	fmt.Printf("Len %v\n", len(allPlayers[0]))
+	fmt.Printf("Len %v\n", len(allPlayers[1]))
+
 
 }
