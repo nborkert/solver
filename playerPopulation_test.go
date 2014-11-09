@@ -2,6 +2,7 @@ package solver
 
 import (
 	"testing"
+	"fmt"
 )
 
 func TestAddPlayer(t *testing.T) {
@@ -13,9 +14,9 @@ func TestAddPlayer(t *testing.T) {
 	if playerAdded.ProjectedPoints != 18 {
 		t.Errorf("Expected 18, recieved %v", playerAdded.ProjectedPoints)
 	}
+	AddPlayerToPopulation(playerAdded)
 
 	player2 := "RB,Yo,SEA,32.33,40000"
-
 	playerAdded2 := CreatePlayer(player2)
 	if playerAdded2.Position != "RB" {
 		t.Error("Expected RB, received %v", playerAdded2.Position)
@@ -28,5 +29,20 @@ func TestAddPlayer(t *testing.T) {
 	if testResult != 1 {
 		t.Error("Expected 1, received %v", testResult)
 	}
+
+	player3 := "RB,Yo2,SEA,32.33,40000"
+	playerAdded3 := CreatePlayer(player3)
+	testLen := HowManyAtPosition("RB")
+	if testLen != 1 {
+		t.Error("Expected 1, received %v", testLen)
+	}
+	AddPlayerToPopulation(playerAdded3)
+	testLen2 := HowManyAtPosition("RB")
+	if testLen2 != 2 {
+		t.Error("Expected 2, received %v",  testLen2)
+	}
+
+	listOfPositions := GetPositions()
+	fmt.Printf("Positions are %v", listOfPositions)
 
 }
