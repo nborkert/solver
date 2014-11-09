@@ -2,30 +2,15 @@ package solver
 
 import (
 	"fmt"
+	"time"
 )
-
-func HowManyAtPosition(position string) int {
-	return len(playersByPosition[position])
-}
-
-func GetPositions() []string {
-	positions := make([]string, 1)
-	for position := range playersByPosition {
-		positions = append(positions, position)
-	}
-	return positions
-}
 
 func CreateRosters() {
 	c := make(chan []Player) //c is the channel used to send rosters to later processing
-	for position := range playersByPosition {
-		for _, player := range playersByPosition[position] {
-			fmt.Printf("About to call CreateRostersForRootNode for player %v\n", player)
-			go CreateRostersForRootNode(player, c)
-		}
-		break  //only needed that first entry from playersByPosition
+	for _, player := range AllPlayers[0] {
+		fmt.Printf("About to call CreateRostersForRootNode for player %v\n", player)
+		go CreateRostersForRootNode(player, c)
 	}
-	ValidateRoster(c)
 	ValidateRoster(c)
 }
 
@@ -44,8 +29,14 @@ func CreateRostersForRootNode(rootNode Player, c chan []Player) {
 //and finds the highest projected winner subject to the expressed constraints
 func ValidateRoster(c chan []Player) {
 	fmt.Printf("In ValidateRoster\n")
-	roster := <-c
-
-	fmt.Printf("Validating roster %v\n", roster)
+	for {
+		select {
+		case roster := <-c:
+			fmt.Printf("Validating roster %v\n", roster)
+		case <-time.After(time.Second * 3):
+			fmt.Printf("Timed out\n")
+			return
+		}
+	}
 }
 

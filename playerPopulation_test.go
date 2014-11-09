@@ -32,18 +32,7 @@ func TestAddPlayer(t *testing.T) {
 
 	player3 := "RB,Yo2,SEA,32.33,40000"
 	playerAdded3 := CreatePlayer(player3)
-	testLen := HowManyAtPosition("RB")
-	if testLen != 1 {
-		t.Error("Expected 1, received %v", testLen)
-	}
 	AddPlayerToPopulation(playerAdded3)
-	testLen2 := HowManyAtPosition("RB")
-	if testLen2 != 2 {
-		t.Error("Expected 2, received %v",  testLen2)
-	}
-
-	listOfPositions := GetPositions()
-	fmt.Printf("Positions are %v\n", listOfPositions)
 
 	allPlayers := CreatePlayersArrays()
 	if allPlayers == nil {
