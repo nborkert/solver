@@ -2,7 +2,7 @@ package solver
 
 import (
 	"strings"
-	//"fmt"
+//	"fmt"
 	"strconv"
 )
 
@@ -14,8 +14,11 @@ type Player struct {
 	Salary int64
 }
 
-func AddPlayer (dataLine string) (string, float64) {
-	//Expect format QB,Peyton Manning,DEN,10,30000
+var playersByPosition map[string][]Player
+//map of position names to a slice of Player structs
+
+func CreatePlayer (dataLine string) Player {
+	//Expect format QB,Peyton Manning,DEN,10,30000. Projected points could be decimal format
 //	fmt.Printf("%q\n", strings.Split(dataLine, ","))
 	playerData := strings.Split(dataLine, ",")
 	playerToAdd := Player{}
@@ -25,7 +28,15 @@ func AddPlayer (dataLine string) (string, float64) {
 	playerToAdd.ProjectedPoints, _ = strconv.ParseFloat(playerData[3], 64)
 	playerToAdd.Salary, _ = strconv.ParseInt(playerData[4], 0, 64)
 
+	return playerToAdd
 
-	return playerToAdd.Position, playerToAdd.ProjectedPoints
+}
 
+func AddPlayerToPopulation (playerToAdd Player) int {
+	if playersByPosition == nil {
+		playersByPosition = make(map[string][]Player)
+	}
+	playersByPosition[playerToAdd.Position] = append(playersByPosition[playerToAdd.Position], playerToAdd)
+	return len(playersByPosition[playerToAdd.Position])
+	//return playersByPosition[playerToAdd.Position].PlayerName
 }
