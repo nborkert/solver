@@ -69,15 +69,25 @@ func CreateRostersForRootNode(rootNode Player, c chan []Player, workComplete cha
 //and finds the highest projected winner subject to the expressed constraints
 func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCount int) {
 	completedWorkers := 0
-
+	var highestPoints float64 = 0.0
+	var winningRoster []Player
 	for {
 		select {
 		case roster := <-c:
 			fmt.Printf("Checking for winner for roster %v\n", roster)
+			rosterPoints := PointsForRoster(roster)
+			fmt.Printf("Roster has points = %v\n", rosterPoints)
+			if rosterPoints > highestPoints {
+				fmt.Printf("HIGHEST SO FAR\n")
+				highestPoints = rosterPoints
+				winningRoster = roster
+			}
+			//Now compare and keep winning roster to send back
 		case done := <-workComplete:
 			completedWorkers = completedWorkers + done
 			fmt.Printf("completedWorkers = %v\n", completedWorkers)
 			if waitForWorkerCount == completedWorkers {
+				fmt.Printf("WINNING ROSTER = %v\n", winningRoster)
 				return
 			}
 		case <-time.After(time.Second * 10):
@@ -87,3 +97,10 @@ func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCoun
 	}
 }
 
+func PointsForRoster(roster []Player) float64 {
+	var points float64 = 0.0
+	for _, player := range roster {
+		points += player.ProjectedPoints
+	}
+	return points
+}
