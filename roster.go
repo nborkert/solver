@@ -80,7 +80,7 @@ func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCoun
 			if waitForWorkerCount == completedWorkers {
 				return
 			}
-		case <-time.After(time.Second * 3):
+		case <-time.After(time.Second * 10):
 			fmt.Printf("Timed out\n")
 			return
 		}

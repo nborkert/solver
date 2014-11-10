@@ -2,7 +2,6 @@ package solver
 
 import (
 	"testing"
-	"fmt"
 )
 
 func TestAddPlayer(t *testing.T) {
@@ -39,8 +38,12 @@ func TestAddPlayer(t *testing.T) {
 		t.Error("Expected non-nil, received nil for CreatePlayerArrays")
 	}
 
-	fmt.Printf("Len %v\n", len(allPlayers[0]))
-	fmt.Printf("Len %v\n", len(allPlayers[1]))
+	if len(allPlayers[0]) != 1 {
+		t.Errorf("Expected 1 QB, %v found\n", len(allPlayers[0]))
+	}
 
+	if len(allPlayers[1]) != 2 {
+		t.Errorf("Expected 2 RB, %v found\n", len(allPlayers[1]))
+	}
 
 }

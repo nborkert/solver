@@ -11,4 +11,21 @@ func ValidateRoster(roster []Player) []Player {
 	return roster
 }
 
+func NoDuplicatePlayersFound(roster []Player) bool {
+	for basePos, basePlayer := range roster {
+		for movingPos, movingPlayer := range roster {
+			if movingPlayer == basePlayer {
+				if basePos != movingPos {
+					return false
+				}
+			}
+		}
+	}
+	return true
+}
+
+func UnderSalaryCap(roster []Player) bool {
+	return true
+}
+
 
