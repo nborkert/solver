@@ -16,7 +16,7 @@ func CreateRosters() {
 		go CreateRostersForRootNode(player, c, workComplete)
 		i++
 	}
-	ValidateRosters(c, workComplete, i)
+	FindWinningRoster(c, workComplete, i)
 }
 
 
@@ -47,24 +47,33 @@ func CreateRostersForRootNode(rootNode Player, c chan []Player, workComplete cha
 		fmt.Printf("newRosters = %v\n", newRosters)
 		previousRosters = newRosters
 	}
-	fmt.Printf("About to call ValidateRoster %v\n", 0)
-	//Send each possible roster to channel
-	c <- rootRoster
+	//Validate roster composition and salary cap info
+	var validRosters [][]Player
+	for _, roster := range previousRosters {
+		isValidRoster := ValidateRoster(roster)
+		if isValidRoster != nil {
+			validRosters = append(validRosters, isValidRoster)
+		}
+	}
+	//Send each valid roster to channel to find winner
+	for _, validRosterMightWin := range validRosters {
+		c <- validRosterMightWin
+	}
 
 	//Send "completed work" indicator after all possible rosters have been sent
 	workComplete <- 1
 }
 
+
 //This method is the centralized "pulling" function that evaluates all possible rosters
 //and finds the highest projected winner subject to the expressed constraints
-func ValidateRosters(c chan []Player, workComplete chan int, waitForWorkerCount int) {
-	fmt.Printf("In ValidateRosters\n")
+func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCount int) {
 	completedWorkers := 0
 
 	for {
 		select {
 		case roster := <-c:
-			fmt.Printf("Validating roster %v\n", roster)
+			fmt.Printf("Checking for winner for roster %v\n", roster)
 		case done := <-workComplete:
 			completedWorkers = completedWorkers + done
 			fmt.Printf("completedWorkers = %v\n", completedWorkers)
