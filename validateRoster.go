@@ -24,7 +24,15 @@ func NoDuplicatePlayersFound(roster []Player) bool {
 	return true
 }
 
-func UnderSalaryCap(roster []Player) bool {
+func UnderSalaryCap(roster []Player, cap int64) bool {
+	var total int64
+	total = 0
+	for _, player := range roster {
+		total += player.Salary
+		if (total > cap) {
+			return false
+		}
+	}
 	return true
 }
 
