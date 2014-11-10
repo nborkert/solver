@@ -2,21 +2,33 @@ package solver
 
 import (
 	"testing"
+	"fmt"
 )
 
-func ValidateRosterTest(t* testing.T) {
+func TestValidateRoster(t* testing.T) {
 	playerA := Player{"QB", "Peyton", "DEN", 5.0, 20000}
 	playerB := Player{"QB", "Peyton", "DEN", 5.0, 20000}
-	playerC := Player{"RB", "McCoy", "PHI", 3.0, 20000}
+	playerC := Player{"RB1", "McCoy", "PHI", 3.0, 20000}
+	playerD := Player{"RB2", "McCoy", "PHI", 3.0, 20000}
 
 	roster := make([]Player, 0)
 	roster = append(roster, playerA)
 	roster = append(roster, playerB)
 	roster = append(roster, playerC)
-
+	fmt.Printf("testing roster for dup: %v\n", roster)
 	ret := NoDuplicatePlayersFound(roster)
 	if ret {
 		t.Errorf("Failed test of duplicate player roster validation for roster %v\n", roster)
+	}
+
+	roster2 := make([]Player, 0)
+	roster2 = append(roster2, playerC)
+	roster2 = append(roster2, playerD)
+	roster2 = append(roster2, playerA)
+	dupCheck := NoDuplicatePlayersFound(roster2)
+	fmt.Printf("Roster2 = %v\n", roster2)
+	if dupCheck {
+		t.Errorf("Failed test of duplicate player roster validation for roster %v\n", roster2)
 	}
 
 	goodRoster := make([]Player, 0)

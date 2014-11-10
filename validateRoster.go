@@ -23,13 +23,15 @@ func ValidateRoster(roster []Player) []Player {
 	return roster
 }
 
+// Players are deemed duplicate if they have the same name and team and appear in different positions in the roster array
 func NoDuplicatePlayersFound(roster []Player) bool {
 	for basePos, basePlayer := range roster {
 		for movingPos, movingPlayer := range roster {
-			if movingPlayer == basePlayer {
-				if basePos != movingPos {
-					return false
-				}
+//			fmt.Printf("basePlayer = %v\n", basePlayer)
+//			fmt.Printf("movingPlayer = %v\n", movingPlayer)
+			if (movingPlayer.PlayerName == basePlayer.PlayerName) && (movingPlayer.Team == basePlayer.Team) && (basePos != movingPos) {
+//				fmt.Printf("FOUND DUPLICATE PLAYER\n")
+				return false
 			}
 		}
 	}
