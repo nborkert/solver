@@ -19,15 +19,37 @@ func CreateRosters() {
 	ValidateRosters(c, workComplete, i)
 }
 
+
 func CreateRostersForRootNode(rootNode Player, c chan []Player, workComplete chan int) {
 	fmt.Printf("Creating rosters for root %v\n", rootNode)
 
-	roster := make([]Player, 0)
-	roster = append(roster, rootNode)
+	rootRoster := make([]Player, 0)
+	rootRoster = append(rootRoster, rootNode)
+	fmt.Printf("Root roster = %v\n", rootRoster)
 
-	fmt.Printf("About to call ValidateRoster for roster %v\n", roster)
+	var previousRosters [][]Player
+	previousRosters = append(previousRosters, rootRoster)
+	fmt.Printf("previousRosters = %v\n", previousRosters)
+
+	//Start at row[1] of AllPlayers since we are given the root node in this function
+	for level := 1; level < len(AllPlayers); level++ {
+		fmt.Printf("level = %v\n", level)
+		var newRosters [][]Player
+		for _, player := range AllPlayers[level] {
+			fmt.Printf("PLAYER %v\n", player)
+			//Now grab previously created rosters and add their players to newRoster
+			for previousRoster := range previousRosters {
+				newRoster := append(previousRosters[previousRoster], player)
+				fmt.Printf("NEW ROSTER AFTER ADDING PREVIOUS GUYS %v\n", newRoster)
+				newRosters = append(newRosters, newRoster)
+			}
+		}
+		fmt.Printf("newRosters = %v\n", newRosters)
+		previousRosters = newRosters
+	}
+	fmt.Printf("About to call ValidateRoster %v\n", 0)
 	//Send each possible roster to channel
-	c <- roster
+	c <- rootRoster
 
 	//Send "completed work" indicator after all possible rosters have been sent
 	workComplete <- 1
