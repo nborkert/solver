@@ -33,5 +33,8 @@ func ValidateRosterTest(t* testing.T) {
 		t.Errorf("Failed test of salary cap check for roster %v\n", roster)
 	}
 
-
+	fullCheck := ValidateRoster(goodRoster)
+	if fullCheck == nil {
+		t.Errorf("Failed test of ValidateRoster for roster %v\n", goodRoster)
+	}
 }
