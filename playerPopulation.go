@@ -16,7 +16,13 @@ type Player struct {
 //map of position names to a slice of Player structs
 var playersByPosition map[string][]Player
 
-//we need an array of arrays of Player structs to have reliable behavior when creating rosters later
+/* we need an array of arrays of Player structs to have reliable behavior when creating rosters later
+This should be mentally considered as a two-dimensional layout of players by position like:
+QBs [Peyton Manning] [Tom Brady] [Carson Palmer]
+RB1 [Lesean McCoy]   [Demarco Murray]
+RB2 [Lesean McCoy]   [Demarco Murray]
+etc. for each position and player
+*/
 var AllPlayers [][]Player
 
 func CreatePlayersArrays () [][]Player {
@@ -28,7 +34,8 @@ func CreatePlayersArrays () [][]Player {
 }
 
 func CreatePlayer (dataLine string) Player {
-	//Expect format QB,Peyton Manning,DEN,10,30000. Projected points could be decimal format
+	//Expect format Position,PlayerName,Team,ProjectedPoints,Salary. ProjectedPoints could be decimal format.
+	//Example: QB,Peyton Manning,DEN,10,30000 
 	playerData := strings.Split(dataLine, ",")
 	playerToAdd := Player{}
 	playerToAdd.Position = playerData[0]

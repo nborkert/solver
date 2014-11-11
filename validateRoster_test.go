@@ -2,7 +2,7 @@ package solver
 
 import (
 	"testing"
-	"fmt"
+//	"fmt"
 )
 
 func TestValidateRoster(t* testing.T) {
@@ -26,7 +26,7 @@ func TestValidateRoster(t* testing.T) {
 	roster2 = append(roster2, playerD)
 	roster2 = append(roster2, playerA)
 	dupCheck := NoDuplicatePlayersFound(roster2)
-	fmt.Printf("Roster2 = %v\n", roster2)
+//	fmt.Printf("Roster2 = %v\n", roster2)
 	if dupCheck {
 		t.Errorf("Failed test of duplicate player roster validation for roster %v\n", roster2)
 	}
