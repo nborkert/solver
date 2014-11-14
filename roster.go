@@ -82,7 +82,7 @@ func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCoun
 			if waitForWorkerCount == completedWorkers {
 				return winningRoster
 			}
-		case <-time.After(time.Second * 3600): //One hour timeout value
+		case <-time.After(time.Second * 36000): //Ten hours timeout value
 			return nil
 		}
 	}
