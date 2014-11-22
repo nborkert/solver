@@ -47,9 +47,9 @@ func CreateRostersForRootNode(rootNode Player, c chan []Player, workComplete cha
 	//Validate roster composition and salary cap info
 	var validRosters [][]Player
 	for _, roster := range previousRosters {
-		isValidRoster := ValidateRoster(roster)
-		if isValidRoster != nil {
-			validRosters = append(validRosters, isValidRoster)
+		validRoster := ValidateRoster(roster)
+		if validRoster != nil {
+			validRosters = append(validRosters, validRoster)
 		}
 	}
 	//Send each valid roster to channel to find winner
