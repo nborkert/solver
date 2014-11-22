@@ -4,7 +4,8 @@ import (
 //	"fmt"
 )
 
-var salaryCap int64 = 60000
+// Assumes not choosing D and K positions
+var salaryCap int64 = 40000
 
 //Insure a player is not on the roster twice and that the cost of the roster is under or equal to the salary cap
 //Returns roster if valid, nil if not valid
