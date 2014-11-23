@@ -1,16 +1,16 @@
 package solver
 
 import (
-	"strings"
 	"strconv"
+	"strings"
 )
 
 type Player struct {
-	Position string
-	PlayerName string
-	Team string
+	Position        string
+	PlayerName      string
+	Team            string
 	ProjectedPoints float64
-	Salary int64
+	Salary          int64
 }
 
 //map of position names to a slice of Player structs
@@ -25,7 +25,7 @@ etc. for each position and player
 */
 var AllPlayers [][]Player
 
-func CreatePlayersArrays () [][]Player {
+func CreatePlayersArrays() [][]Player {
 	for position := range playersByPosition {
 		AllPlayers = append(AllPlayers, playersByPosition[position])
 	}
@@ -33,9 +33,9 @@ func CreatePlayersArrays () [][]Player {
 
 }
 
-func CreatePlayer (dataLine string) Player {
+func CreatePlayer(dataLine string) Player {
 	//Expect format Position,PlayerName,Team,ProjectedPoints,Salary. ProjectedPoints could be decimal format.
-	//Example: QB,Peyton Manning,DEN,10,30000 
+	//Example: QB,Peyton Manning,DEN,10,30000
 	playerData := strings.Split(dataLine, ",")
 	playerToAdd := Player{}
 	playerToAdd.Position = playerData[0]
@@ -47,7 +47,7 @@ func CreatePlayer (dataLine string) Player {
 	return playerToAdd
 }
 
-func AddPlayerToPopulation (playerToAdd Player) int {
+func AddPlayerToPopulation(playerToAdd Player) int {
 	if playersByPosition == nil {
 		playersByPosition = make(map[string][]Player)
 	}

@@ -1,13 +1,13 @@
 package solver
 
 import (
-	//"fmt"
+//"fmt"
 )
 
 func CreateRosters() []Player {
-	c := make(chan []Player) //c is the channel used to send rosters to later processing
+	c := make(chan []Player)       //c is the channel used to send rosters to later processing
 	workComplete := make(chan int) //workComplete is the channel used to send an int to indicate
-		//that all candidate rosters have been sent from a given goroutine
+	//that all candidate rosters have been sent from a given goroutine
 	var i = 0 //will be used to count the number of goroutines launched
 
 	for _, player := range AllPlayers[0] {
@@ -27,21 +27,29 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 	for rb1Idx := range AllPlayers[1] {
 		for rb2Idx := range AllPlayers[2] {
 			for wr1Idx := range AllPlayers[3] {
-				for wr2Idx := range AllPlayers [4] {
-					for wr3Idx := range AllPlayers[5] {
-						for teIdx := range AllPlayers[6] {
-							roster := make([]Player, 7)
-							roster[0] = rootNode
-							roster[1] = AllPlayers[1][rb1Idx]
-							roster[2] = AllPlayers[2][rb2Idx]
-							roster[3] = AllPlayers[3][wr1Idx]
-							roster[4] = AllPlayers[4][wr2Idx]
-							roster[5] = AllPlayers[5][wr3Idx]
-							roster[6] = AllPlayers[6][teIdx]
+				//check salary with QB, RB1, RB2, and WR1. If under $36k, move on to next WR2
+				salaryCheckRoster := make([]Player, 4)
+				salaryCheckRoster[0] = rootNode
+				salaryCheckRoster[1] = AllPlayers[1][rb1Idx]
+				salaryCheckRoster[2] = AllPlayers[2][rb2Idx]
+				salaryCheckRoster[3] = AllPlayers[3][wr1Idx]
+				if UnderSalaryCap(salaryCheckRoster, 36000) {
+					for wr2Idx := range AllPlayers[4] {
+						for wr3Idx := range AllPlayers[5] {
+							for teIdx := range AllPlayers[6] {
+								roster := make([]Player, 7)
+								roster[0] = rootNode
+								roster[1] = AllPlayers[1][rb1Idx]
+								roster[2] = AllPlayers[2][rb2Idx]
+								roster[3] = AllPlayers[3][wr1Idx]
+								roster[4] = AllPlayers[4][wr2Idx]
+								roster[5] = AllPlayers[5][wr3Idx]
+								roster[6] = AllPlayers[6][teIdx]
 
-							validRoster := ValidateRoster(roster)
-							if validRoster != nil {
-								c <- validRoster
+								validRoster := ValidateRoster(roster)
+								if validRoster != nil {
+									c <- validRoster
+								}
 							}
 						}
 					}
@@ -62,12 +70,12 @@ func CreateRostersForRootNode(rootNode Player, c chan []Player, workComplete cha
 	previousRosters = append(previousRosters, rootRoster)
 	//Start at row[1] of AllPlayers since we are given the root node in this function
 	for level := 1; level < len(AllPlayers); level++ {
-		newRosters := make([][]Player, 0)  //newRosters will be built,
-			//then will replace previousRosters on each iteration.
+		newRosters := make([][]Player, 0) //newRosters will be built,
+		//then will replace previousRosters on each iteration.
 
 		for _, player := range AllPlayers[level] {
 			for i := range previousRosters {
-				//Below line was actually overwriting the previousRosters array while creating 
+				//Below line was actually overwriting the previousRosters array while creating
 				//newRoster
 				//newRoster := append(previousRosters[i], player)
 				newRoster := make([]Player, 1)
@@ -94,5 +102,3 @@ func CreateRostersForRootNode(rootNode Player, c chan []Player, workComplete cha
 	//Send "completed work" indicator after all possible rosters have been sent
 	workComplete <- 1
 }
-
-

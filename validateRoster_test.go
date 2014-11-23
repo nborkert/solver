@@ -1,11 +1,11 @@
 package solver
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
-func TestValidateRoster(t* testing.T) {
+func TestValidateRoster(t *testing.T) {
 	playerA := Player{"QB", "Peyton", "DEN", 5.0, 20000}
 	playerB := Player{"QB", "Peyton", "DEN", 5.0, 20000}
 	playerC := Player{"RB1", "McCoy", "PHI", 3.0, 20000}
@@ -18,9 +18,7 @@ func TestValidateRoster(t* testing.T) {
 	roster = append(roster, playerC)
 	roster = append(roster, playerE)
 
-
 	roster = append(roster, playerB)
-
 
 	fmt.Printf("testing roster for dup: %v\n", roster)
 	ret := DuplicatePlayersFound(roster)
@@ -47,16 +45,16 @@ func TestValidateRoster(t* testing.T) {
 	if goodDupCheck {
 		t.Errorf("Failed test of dup player roster validation for roster %v\n", goodRoster)
 	}
-/*
-	var salaryCap int64
-	salaryCap = 50000
-	if UnderSalaryCap(roster, salaryCap) {
-		t.Errorf("Failed test of salary cap check for roster %v\n", roster)
-	}
+	/*
+		var salaryCap int64
+		salaryCap = 50000
+		if UnderSalaryCap(roster, salaryCap) {
+			t.Errorf("Failed test of salary cap check for roster %v\n", roster)
+		}
 
-	fullCheck := ValidateRoster(goodRoster)
-	if fullCheck == nil {
-		t.Errorf("Failed test of ValidateRoster for roster %v\n", goodRoster)
-	}
+		fullCheck := ValidateRoster(goodRoster)
+		if fullCheck == nil {
+			t.Errorf("Failed test of ValidateRoster for roster %v\n", goodRoster)
+		}
 	*/
 }
