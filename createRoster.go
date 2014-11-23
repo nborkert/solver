@@ -11,10 +11,45 @@ func CreateRosters() []Player {
 	var i = 0 //will be used to count the number of goroutines launched
 
 	for _, player := range AllPlayers[0] {
-		go CreateRostersForRootNode(player, c, workComplete)
+		//go CreateRostersForRootNode(player, c, workComplete)
+
+		go CreateFootballRosters(player, c, workComplete)
 		i++
 	}
 	return FindWinningRoster(c, workComplete, i)
+}
+
+//This is the attempt at improving roster creation and evaluation. Big change is not building
+//all rosters before sending to the channel that will keep the winner. We send the roster
+//immediately after being built. This should remove the memory limit.
+//Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
+func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int) {
+	for rb1Idx := range AllPlayers[1] {
+		for rb2Idx := range AllPlayers[2] {
+			for wr1Idx := range AllPlayers[3] {
+				for wr2Idx := range AllPlayers [4] {
+					for wr3Idx := range AllPlayers[5] {
+						for teIdx := range AllPlayers[6] {
+							roster := make([]Player, 7)
+							roster[0] = rootNode
+							roster[1] = AllPlayers[1][rb1Idx]
+							roster[2] = AllPlayers[2][rb2Idx]
+							roster[3] = AllPlayers[3][wr1Idx]
+							roster[4] = AllPlayers[4][wr2Idx]
+							roster[5] = AllPlayers[5][wr3Idx]
+							roster[6] = AllPlayers[6][teIdx]
+
+							validRoster := ValidateRoster(roster)
+							if validRoster != nil {
+								c <- validRoster
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	workComplete <- 1
 }
 
 //"previousRosters" and "newRosters" variables in this method should be considered as a one-dimensional
