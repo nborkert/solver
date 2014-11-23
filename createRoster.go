@@ -13,7 +13,7 @@ func CreateRosters() []Player {
 	for _, player := range AllPlayers[0] {
 		//go CreateRostersForRootNode(player, c, workComplete)
 
-		go CreateFootballRosters(player, c, workComplete)
+		go CreateFanDuelRosters(player, c, workComplete)
 		i++
 	}
 	return FindWinningRoster(c, workComplete, i)
@@ -23,7 +23,7 @@ func CreateRosters() []Player {
 //all rosters before sending to the channel that will keep the winner. We send the roster
 //immediately after being built. This should remove the memory limit.
 //Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
-func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int) {
+func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan int) {
 	for rb1Idx := range AllPlayers[1] {
 		for rb2Idx := range AllPlayers[2] {
 			for wr1Idx := range AllPlayers[3] {
