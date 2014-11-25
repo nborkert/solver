@@ -9,7 +9,17 @@ func TestValidateRoster(t *testing.T) {
 	playerA := Player{"QB", "Peyton", "DEN", 5.0, 20000}
 	playerB := Player{"QB", "Peyton", "DEN", 5.0, 20000}
 	playerC := Player{"RB1", "McCoy", "PHI", 3.0, 20000}
+
+	playerF := Player{"RB1", "McCoy", "PHI", 3.0, 20000}
+
+
+
+
+	playerG := Player{"RB2", "McCoy", "PHI", 3.0, 20000}
+
 	playerD := Player{"RB2", "McCoy", "PHI", 3.0, 20000}
+
+
 	playerE := Player{"WR", "A", "B", 1.0, 1000}
 
 	roster := make([]Player, 0)
@@ -45,16 +55,17 @@ func TestValidateRoster(t *testing.T) {
 	if goodDupCheck {
 		t.Errorf("Failed test of dup player roster validation for roster %v\n", goodRoster)
 	}
-	/*
-		var salaryCap int64
-		salaryCap = 50000
-		if UnderSalaryCap(roster, salaryCap) {
-			t.Errorf("Failed test of salary cap check for roster %v\n", roster)
-		}
 
-		fullCheck := ValidateRoster(goodRoster)
-		if fullCheck == nil {
-			t.Errorf("Failed test of ValidateRoster for roster %v\n", goodRoster)
-		}
-	*/
+	roster3 := make([]Player, 6)
+	roster3[0] = playerA
+	roster3[1] = playerC
+	roster3[2] = playerF
+	roster3[3] = playerG
+	roster3[4] = playerD
+	roster3[5] = playerE
+
+	fmt.Printf("testing roster3 for dup: %v\n", roster3)
+	if !DuplicatePlayersFound(roster3) {
+		t.Errorf("AHHHH %v\n", roster3)
+	}
 }

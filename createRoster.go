@@ -22,11 +22,13 @@ func CreateRosters() []Player {
 //immediately after being built. This should remove the memory limit.
 //Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
 func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int) {
-	winningRoster := make([]Player, 7)
 	testRoster := make([]Player, 7)
 	salaryCheckRoster := make([]Player, 4)
 	winningPoints := 0.0
-	var salaryCap int64 = 50000
+	testRosterPoints := 0.0
+	var salaryCap int64 = 55000
+
+	winningRoster := make([]Player, 7)
 
 	for rb1Idx := range AllPlayers[1] {
 		for rb2Idx := range AllPlayers[2] {
@@ -52,9 +54,16 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 									if !DuplicatePlayersFound(testRoster) {
 										//Now test to see if this roster
 										//has the most points yet
-										if PointsForRoster(testRoster) > winningPoints {
-											winningPoints = PointsForRoster(testRoster)
-											winningRoster = testRoster
+								//		fmt.Printf("Found no dups for this roster above%v\n", testRoster)
+										testRosterPoints = PointsForRoster(testRoster)
+										if testRosterPoints > winningPoints {
+											winningPoints = testRosterPoints
+											//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
+											//winningRoster = append(winningRoster, testRoster...)
+											copy(winningRoster, testRoster) 
+										//	fmt.Printf("testRoster = %v\n", testRoster)
+										//	fmt.Printf("winningRoster = %v\n", winningRoster)
+										//	fmt.Printf("WinningPoints so far = %v\n", winningPoints)
 										}
 									}
 								}
@@ -65,7 +74,8 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 			}
 		}
 	}
-//	fmt.Printf("Winning roster = %v\n", winningRoster)
+	//fmt.Printf("Winning points = %v\n", winningPoints)
+	//fmt.Printf("Winning roster = %v\n", winningRoster)
 	c <- winningRoster
 	workComplete <- 1
 }

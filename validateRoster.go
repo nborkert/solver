@@ -25,12 +25,12 @@ func DuplicatePlayersFound(roster []Player) bool {
 	for basePos, basePlayer := range roster {
 		for movingPos, movingPlayer := range roster {
 			if (movingPlayer.PlayerName == basePlayer.PlayerName) && (movingPlayer.Team == basePlayer.Team) && (basePos != movingPos) {
-				//				fmt.Printf("FOUNDDUPONROSTER %v and %v\n", basePlayer, movingPlayer)
+//								fmt.Printf("FOUNDDUPONROSTER %v and %v\n", basePlayer, movingPlayer)
 				return true
 			}
 		}
 	}
-	//	fmt.Printf("NODUPSFOUND on roster %v\n", roster)
+//		fmt.Printf("NODUPSFOUND on roster %v\n", roster)
 	return false
 }
 
