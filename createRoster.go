@@ -11,8 +11,7 @@ func CreateRosters() []Player {
 	var i = 0 //will be used to count the number of goroutines launched
 
 	for _, player := range AllPlayers[0] {
-		//go CreateRostersForRootNode(player, c, workComplete)
-		go CreateFanDuelRosters(player, c, workComplete)
+		go CreateFootballRosters(player, c, workComplete)
 		i++
 	}
 	return FindWinningRoster(c, workComplete, i)
@@ -22,7 +21,7 @@ func CreateRosters() []Player {
 //all rosters before sending to the channel that will keep the winner. We send the roster
 //immediately after being built. This should remove the memory limit.
 //Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
-func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan int) {
+func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int) {
 	winningRoster := make([]Player, 7)
 	testRoster := make([]Player, 7)
 	salaryCheckRoster := make([]Player, 4)
@@ -71,45 +70,3 @@ func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan in
 	workComplete <- 1
 }
 
-//"previousRosters" and "newRosters" variables in this method should be considered as a one-dimensional
-//list of rosters. Each roster is an array of Player structs, thus the use of []Player.
-func CreateRostersForRootNode(rootNode Player, c chan []Player, workComplete chan int) {
-	rootRoster := make([]Player, 0)
-	rootRoster = append(rootRoster, rootNode)
-
-	var previousRosters [][]Player
-	previousRosters = append(previousRosters, rootRoster)
-	//Start at row[1] of AllPlayers since we are given the root node in this function
-	for level := 1; level < len(AllPlayers); level++ {
-		newRosters := make([][]Player, 0) //newRosters will be built,
-		//then will replace previousRosters on each iteration.
-
-		for _, player := range AllPlayers[level] {
-			for i := range previousRosters {
-				//Below line was actually overwriting the previousRosters array while creating
-				//newRoster
-				//newRoster := append(previousRosters[i], player)
-				newRoster := make([]Player, 1)
-				newRoster[0] = player
-				newRoster = append(newRoster, previousRosters[i]...)
-				newRosters = append(newRosters, newRoster)
-			}
-		}
-		previousRosters = newRosters
-	}
-	//Validate roster composition and salary cap info
-	var validRosters [][]Player
-	for _, roster := range previousRosters {
-		validRoster := ValidateRoster(roster)
-		if validRoster != nil {
-			validRosters = append(validRosters, validRoster)
-		}
-	}
-	//Send each valid roster to channel to find winner
-	for _, validRosterMightWin := range validRosters {
-		c <- validRosterMightWin
-	}
-
-	//Send "completed work" indicator after all possible rosters have been sent
-	workComplete <- 1
-}
