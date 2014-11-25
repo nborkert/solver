@@ -12,7 +12,6 @@ func CreateRosters() []Player {
 
 	for _, player := range AllPlayers[0] {
 		//go CreateRostersForRootNode(player, c, workComplete)
-
 		go CreateFanDuelRosters(player, c, workComplete)
 		i++
 	}
@@ -24,11 +23,19 @@ func CreateRosters() []Player {
 //immediately after being built. This should remove the memory limit.
 //Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
 func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan int) {
+	//var winningRoster [7]Player
+	winningRoster := make([]Player, 7)
+	//var testRoster [7]Player
+	testRoster := make([]Player, 7)
+	salaryCheckRoster := make([]Player, 4)
+	//var salaryCheckRoster [4]Player
+	winningPoints := 0.0
+	var salaryCap int64 = 50000
+
 	for rb1Idx := range AllPlayers[1] {
 		for rb2Idx := range AllPlayers[2] {
 			for wr1Idx := range AllPlayers[3] {
 				//check salary with QB, RB1, RB2, and WR1. If under $36k, move on to next WR2
-				salaryCheckRoster := make([]Player, 4)
 				salaryCheckRoster[0] = rootNode
 				salaryCheckRoster[1] = AllPlayers[1][rb1Idx]
 				salaryCheckRoster[2] = AllPlayers[2][rb2Idx]
@@ -37,18 +44,23 @@ func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan in
 					for wr2Idx := range AllPlayers[4] {
 						for wr3Idx := range AllPlayers[5] {
 							for teIdx := range AllPlayers[6] {
-								roster := make([]Player, 7)
-								roster[0] = rootNode
-								roster[1] = AllPlayers[1][rb1Idx]
-								roster[2] = AllPlayers[2][rb2Idx]
-								roster[3] = AllPlayers[3][wr1Idx]
-								roster[4] = AllPlayers[4][wr2Idx]
-								roster[5] = AllPlayers[5][wr3Idx]
-								roster[6] = AllPlayers[6][teIdx]
+								testRoster[0] = rootNode
+								testRoster[1] = AllPlayers[1][rb1Idx]
+								testRoster[2] = AllPlayers[2][rb2Idx]
+								testRoster[3] = AllPlayers[3][wr1Idx]
+								testRoster[4] = AllPlayers[4][wr2Idx]
+								testRoster[5] = AllPlayers[5][wr3Idx]
+								testRoster[6] = AllPlayers[6][teIdx]
 
-								validRoster := ValidateRoster(roster)
-								if validRoster != nil {
-									c <- validRoster
+								if UnderSalaryCap(testRoster, salaryCap) {
+									if !DuplicatePlayersFound(testRoster) {
+										//Now test to see if this roster
+										//has the most points yet
+										if PointsForRoster(testRoster) > winningPoints {
+											winningPoints = PointsForRoster(testRoster)
+											winningRoster = testRoster
+										}
+									}
 								}
 							}
 						}
@@ -57,6 +69,7 @@ func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan in
 			}
 		}
 	}
+	c <- winningRoster
 	workComplete <- 1
 }
 

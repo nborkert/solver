@@ -4,12 +4,6 @@ import (
 	"time"
 )
 
-// A Roster is a list of Player structs and their combined salary
-type Roster struct {
-	Players []Player
-	Salary  int64
-}
-
 //This method is the centralized "pulling" function that evaluates all possible rosters
 //and finds the highest projected winner subject to the expressed constraints
 func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCount int) []Player {
