@@ -26,7 +26,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 	salaryCheckRoster := make([]Player, 4)
 	winningPoints := 0.0
 	testRosterPoints := 0.0
-	var salaryCap int64 = 55000
+	var salaryCap int64 = 51000
 
 	winningRoster := make([]Player, 7)
 
