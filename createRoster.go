@@ -1,7 +1,7 @@
 package solver
 
 import (
-//"fmt"
+//	"fmt"
 )
 
 func CreateRosters() []Player {
@@ -23,12 +23,9 @@ func CreateRosters() []Player {
 //immediately after being built. This should remove the memory limit.
 //Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
 func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan int) {
-	//var winningRoster [7]Player
 	winningRoster := make([]Player, 7)
-	//var testRoster [7]Player
 	testRoster := make([]Player, 7)
 	salaryCheckRoster := make([]Player, 4)
-	//var salaryCheckRoster [4]Player
 	winningPoints := 0.0
 	var salaryCap int64 = 50000
 
@@ -69,6 +66,7 @@ func CreateFanDuelRosters(rootNode Player, c chan []Player, workComplete chan in
 			}
 		}
 	}
+//	fmt.Printf("Winning roster = %v\n", winningRoster)
 	c <- winningRoster
 	workComplete <- 1
 }
