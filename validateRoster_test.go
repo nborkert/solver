@@ -12,13 +12,9 @@ func TestValidateRoster(t *testing.T) {
 
 	playerF := Player{"RB1", "McCoy", "PHI", 3.0, 20000}
 
-
-
-
 	playerG := Player{"RB2", "McCoy", "PHI", 3.0, 20000}
 
 	playerD := Player{"RB2", "McCoy", "PHI", 3.0, 20000}
-
 
 	playerE := Player{"WR", "A", "B", 1.0, 1000}
 
@@ -46,7 +42,6 @@ func TestValidateRoster(t *testing.T) {
 	if !underSalaryCap {
 		t.Errorf("Failed salary cap calculation")
 	}
-
 
 	roster2 := make([]Player, 0)
 	roster2 = append(roster2, playerC)

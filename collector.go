@@ -29,4 +29,3 @@ func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCoun
 		}
 	}
 }
-

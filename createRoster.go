@@ -20,7 +20,8 @@ func CreateRosters() []Player {
 //This is the attempt at improving roster creation and evaluation. Big change is not building
 //all rosters before sending to the channel that will keep the winner. We send the roster
 //immediately after being built. This should remove the memory limit.
-//Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
+//Hard-coded with assumptions that a roster will have these positions:
+//QB, RB1, RB2, WR1, WR2, WR3, TE, K, D.
 //The salaryCap var is set in ValidateRoster.go
 func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int) {
 	testRoster := make([]Player, 7)
@@ -44,32 +45,34 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 				testRoster[3] = AllPlayers[3][wr1Idx]
 				salaryCheckRoster[3] = AllPlayers[3][wr1Idx]
 
-				//check salary with QB, RB1, RB2, and WR1. If under $36k, move on to next position 
-				if UnderSalaryCap(salaryCheckRoster, 36000) {
-					for wr2Idx := range AllPlayers[4] {
-						testRoster[4] = AllPlayers[4][wr2Idx]
+				//check salary with QB, RB1, RB2, and WR1. If already too expensive,
+				//try next WR1.
+				if UnderSalaryCap(salaryCheckRoster, SalaryCapAtLevel(3)) {
+					continue
+				}
+				for wr2Idx := range AllPlayers[4] {
+					testRoster[4] = AllPlayers[4][wr2Idx]
 
-						for wr3Idx := range AllPlayers[5] {
-							testRoster[5] = AllPlayers[5][wr3Idx]
+					for wr3Idx := range AllPlayers[5] {
+						testRoster[5] = AllPlayers[5][wr3Idx]
 
-							for teIdx := range AllPlayers[6] {
-								testRoster[6] = AllPlayers[6][teIdx]
+						for teIdx := range AllPlayers[6] {
+							testRoster[6] = AllPlayers[6][teIdx]
 
-								if UnderSalaryCap(testRoster, salaryCap) {
-									if !DuplicatePlayersFound(testRoster) {
-										//Now test to see if this roster
-										//has the most points yet
-								//		fmt.Printf("Found no dups for this roster above%v\n", testRoster)
-										testRosterPoints = PointsForRoster(testRoster)
-										if testRosterPoints > winningPoints {
-											winningPoints = testRosterPoints
-											//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
-											//winningRoster = append(winningRoster, testRoster...)
-											copy(winningRoster, testRoster)
+							if UnderSalaryCap(testRoster, salaryCap) {
+								if !DuplicatePlayersFound(testRoster) {
+									//Now test to see if this roster
+									//has the most points yet
+									//		fmt.Printf("Found no dups for this roster above%v\n", testRoster)
+									testRosterPoints = PointsForRoster(testRoster)
+									if testRosterPoints > winningPoints {
+										winningPoints = testRosterPoints
+										//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
+										//winningRoster = append(winningRoster, testRoster...)
+										copy(winningRoster, testRoster)
 										//	fmt.Printf("testRoster = %v\n", testRoster)
 										//	fmt.Printf("winningRoster = %v\n", winningRoster)
 										//	fmt.Printf("WinningPoints so far = %v\n", winningPoints)
-										}
 									}
 								}
 							}
@@ -85,3 +88,8 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 	workComplete <- 1
 }
 
+//This function indicates what the salary cap is after adding the player at the indicated level.
+//Level 0 is the QB, level 8 is the D.
+func SalaryCapAtLevel(level int) int {
+	return (salaryCap - ((8 * level) * minPlayerSalary))
+}

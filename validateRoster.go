@@ -4,9 +4,10 @@ import (
 //"fmt"
 )
 
-// Assumes not choosing D and K positions
-//var salaryCap int64 = 40000
-var salaryCap int64 = 50000
+var salaryCap int = 60000
+var minRosterSalary int = 57000 //This is the minimum salary expected for winning rosters
+var minPlayerSalary int = 4500
+var maxPlayerSalary int = 9000
 
 //Insure a player is not on the roster twice and that the cost of the roster is under or equal to the salary cap
 //Returns roster if valid, nil if not valid
@@ -25,16 +26,16 @@ func DuplicatePlayersFound(roster []Player) bool {
 	for basePos, basePlayer := range roster {
 		for movingPos, movingPlayer := range roster {
 			if (movingPlayer.PlayerName == basePlayer.PlayerName) && (movingPlayer.Team == basePlayer.Team) && (basePos != movingPos) {
-//								fmt.Printf("FOUNDDUPONROSTER %v and %v\n", basePlayer, movingPlayer)
+				//								fmt.Printf("FOUNDDUPONROSTER %v and %v\n", basePlayer, movingPlayer)
 				return true
 			}
 		}
 	}
-//		fmt.Printf("NODUPSFOUND on roster %v\n", roster)
+	//		fmt.Printf("NODUPSFOUND on roster %v\n", roster)
 	return false
 }
 
-func UnderSalaryCap(roster []Player, max int64) bool {
+func UnderSalaryCap(roster []Player, max int) bool {
 	total := RosterSalary(roster)
 	if total > max {
 		//			fmt.Printf("Overcap of %v for roster %v\n", max, roster)
@@ -44,8 +45,8 @@ func UnderSalaryCap(roster []Player, max int64) bool {
 	return true
 }
 
-func RosterSalary(roster []Player) int64 {
-	var total int64
+func RosterSalary(roster []Player) int {
+	var total int
 	total = 0
 	for _, player := range roster {
 		total += player.Salary
@@ -60,4 +61,3 @@ func PointsForRoster(roster []Player) float64 {
 	}
 	return points
 }
-

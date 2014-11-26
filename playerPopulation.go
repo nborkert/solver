@@ -10,7 +10,7 @@ type Player struct {
 	PlayerName      string
 	Team            string
 	ProjectedPoints float64
-	Salary          int64
+	Salary          int
 }
 
 //map of position names to a slice of Player structs
@@ -42,8 +42,9 @@ func CreatePlayer(dataLine string) Player {
 	playerToAdd.PlayerName = playerData[1]
 	playerToAdd.Team = playerData[2]
 	playerToAdd.ProjectedPoints, _ = strconv.ParseFloat(playerData[3], 64)
-	playerToAdd.Salary, _ = strconv.ParseInt(playerData[4], 0, 64)
+	//playerToAdd.Salary, _ = strconv.ParseInt(playerData[4], 0, 64)
 
+	playerToAdd.Salary, _ = strconv.Atoi(playerData[4])
 	return playerToAdd
 }
 
