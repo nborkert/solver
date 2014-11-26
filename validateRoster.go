@@ -5,7 +5,7 @@ import (
 )
 
 const salaryCap int = 60000
-const minRosterSalary int = 57000 //This is the minimum salary expected for winning rosters
+const minWinningRosterSalary int = 57000 //This is the minimum salary expected for winning rosters
 const minPlayerSalary int = 4500
 const maxPlayerSalary int = 9000
 
