@@ -30,10 +30,3 @@ func FindWinningRoster(c chan []Player, workComplete chan int, waitForWorkerCoun
 	}
 }
 
-func PointsForRoster(roster []Player) float64 {
-	var points float64 = 0.0
-	for _, player := range roster {
-		points += player.ProjectedPoints
-	}
-	return points
-}
