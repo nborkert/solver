@@ -4,10 +4,10 @@ import (
 //"fmt"
 )
 
-var salaryCap int = 60000
-var minRosterSalary int = 57000 //This is the minimum salary expected for winning rosters
-var minPlayerSalary int = 4500
-var maxPlayerSalary int = 9000
+const salaryCap int = 60000
+const minRosterSalary int = 57000 //This is the minimum salary expected for winning rosters
+const minPlayerSalary int = 4500
+const maxPlayerSalary int = 9000
 
 //Insure a player is not on the roster twice and that the cost of the roster is under or equal to the salary cap
 //Returns roster if valid, nil if not valid
