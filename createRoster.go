@@ -21,12 +21,12 @@ func CreateRosters() []Player {
 //all rosters before sending to the channel that will keep the winner. We send the roster
 //immediately after being built. This should remove the memory limit.
 //Hard-coded with assumptions that no K or D is being picked and we start at the RB1 position.
+//The salaryCap var is set in ValidateRoster.go
 func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int) {
 	testRoster := make([]Player, 7)
 	salaryCheckRoster := make([]Player, 4)
 	winningPoints := 0.0
 	testRosterPoints := 0.0
-	var salaryCap int64 = 51000
 
 	winningRoster := make([]Player, 7)
 
