@@ -27,27 +27,32 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 	salaryCheckRoster := make([]Player, 4)
 	winningPoints := 0.0
 	testRosterPoints := 0.0
-
 	winningRoster := make([]Player, 7)
 
+	testRoster[0] = rootNode
+	salaryCheckRoster[0] = rootNode
+
 	for rb1Idx := range AllPlayers[1] {
+		testRoster[1] = AllPlayers[1][rb1Idx]
+		salaryCheckRoster[1] = AllPlayers[1][rb1Idx]
+
 		for rb2Idx := range AllPlayers[2] {
+			testRoster[2] = AllPlayers[2][rb2Idx]
+			salaryCheckRoster[2] = AllPlayers[2][rb2Idx]
+
 			for wr1Idx := range AllPlayers[3] {
-				//check salary with QB, RB1, RB2, and WR1. If under $36k, move on to next WR2
-				salaryCheckRoster[0] = rootNode
-				salaryCheckRoster[1] = AllPlayers[1][rb1Idx]
-				salaryCheckRoster[2] = AllPlayers[2][rb2Idx]
+				testRoster[3] = AllPlayers[3][wr1Idx]
 				salaryCheckRoster[3] = AllPlayers[3][wr1Idx]
+
+				//check salary with QB, RB1, RB2, and WR1. If under $36k, move on to next position 
 				if UnderSalaryCap(salaryCheckRoster, 36000) {
 					for wr2Idx := range AllPlayers[4] {
+						testRoster[4] = AllPlayers[4][wr2Idx]
+
 						for wr3Idx := range AllPlayers[5] {
+							testRoster[5] = AllPlayers[5][wr3Idx]
+
 							for teIdx := range AllPlayers[6] {
-								testRoster[0] = rootNode
-								testRoster[1] = AllPlayers[1][rb1Idx]
-								testRoster[2] = AllPlayers[2][rb2Idx]
-								testRoster[3] = AllPlayers[3][wr1Idx]
-								testRoster[4] = AllPlayers[4][wr2Idx]
-								testRoster[5] = AllPlayers[5][wr3Idx]
 								testRoster[6] = AllPlayers[6][teIdx]
 
 								if UnderSalaryCap(testRoster, salaryCap) {
@@ -60,7 +65,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 											winningPoints = testRosterPoints
 											//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
 											//winningRoster = append(winningRoster, testRoster...)
-											copy(winningRoster, testRoster) 
+											copy(winningRoster, testRoster)
 										//	fmt.Printf("testRoster = %v\n", testRoster)
 										//	fmt.Printf("winningRoster = %v\n", winningRoster)
 										//	fmt.Printf("WinningPoints so far = %v\n", winningPoints)
