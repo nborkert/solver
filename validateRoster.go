@@ -35,15 +35,20 @@ func DuplicatePlayersFound(roster []Player) bool {
 }
 
 func UnderSalaryCap(roster []Player, max int64) bool {
+	total := RosterSalary(roster)
+	if total > max {
+		//			fmt.Printf("Overcap of %v for roster %v\n", max, roster)
+		return false
+	}
+	//fmt.Printf("Undercap of %v for roster %v\n", max, roster)
+	return true
+}
+
+func RosterSalary(roster []Player) int64 {
 	var total int64
 	total = 0
 	for _, player := range roster {
 		total += player.Salary
-		if total > max {
-			//			fmt.Printf("Overcap of %v for roster %v\n", max, roster)
-			return false
-		}
 	}
-	//fmt.Printf("Undercap of %v for roster %v\n", max, roster)
-	return true
+	return total
 }

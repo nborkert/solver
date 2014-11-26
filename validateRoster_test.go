@@ -36,6 +36,18 @@ func TestValidateRoster(t *testing.T) {
 		t.Errorf("Failed test of duplicate player roster validation for roster %v\n", roster)
 	}
 
+	salaryForRoster := RosterSalary(roster)
+	fmt.Printf("Salary = %v\n", salaryForRoster)
+	if salaryForRoster != 61000 {
+		t.Errorf("Failed salary calculation")
+	}
+
+	underSalaryCap := UnderSalaryCap(roster, 61000)
+	if !underSalaryCap {
+		t.Errorf("Failed salary cap calculation")
+	}
+
+
 	roster2 := make([]Player, 0)
 	roster2 = append(roster2, playerC)
 	roster2 = append(roster2, playerD)
