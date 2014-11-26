@@ -55,7 +55,7 @@ func RosterSalary(roster []Player) int64 {
 
 func PointsForRoster(roster []Player) float64 {
 	var points float64 = 0.0
-	for _, player := roster {
+	for _, player := range roster {
 		points += player.ProjectedPoints
 	}
 	return points
