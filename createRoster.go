@@ -35,39 +35,43 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 			for wr1Idx := range AllPlayers[3] {
 				testRoster[3] = AllPlayers[3][wr1Idx]
-				EraseRosterAfterLevel(testRoster, 3)
-				//check salary with QB, RB1, RB2, and WR1. If already too expensive,
-				//try next WR1.
-				if !UnderSalaryCap(testRoster, SalaryCapAtLevel(3)) {
-					continue
-				}
-				//check salary again for minimum level
-				if UnderSalaryCap(testRoster, SalaryMinAtLevel(3)) {
-					continue
-				}
-
-				for wr2Idx := range AllPlayers[4] {
-					testRoster[4] = AllPlayers[4][wr2Idx]
-					EraseRosterAfterLevel(testRoster, 4)
-					if !UnderSalaryCap(testRoster, SalaryCapAtLevel(4)) {
+				//Experiments have shown that this optimization is overcome by the overhead
+				//of performing the test after we reach 15 players
+				if wr1Idx < 17 {
+					EraseRosterAfterLevel(testRoster, 3)
+					//check salary with QB, RB1, RB2, and WR1. If already too expensive,
+					//try next WR1.
+					if !UnderSalaryCap(testRoster, SalaryCapAtLevel(3)) {
 						continue
 					}
-
-					if UnderSalaryCap(testRoster, SalaryMinAtLevel(4)) {
+					//check salary again for minimum level
+					if UnderSalaryCap(testRoster, SalaryMinAtLevel(3)) {
 						continue
+					}
+				}
+				for wr2Idx := range AllPlayers[4] {
+					testRoster[4] = AllPlayers[4][wr2Idx]
+					if wr2Idx < 17 {
+						EraseRosterAfterLevel(testRoster, 4)
+						if !UnderSalaryCap(testRoster, SalaryCapAtLevel(4)) {
+							continue
+						}
+						if UnderSalaryCap(testRoster, SalaryMinAtLevel(4)) {
+							continue
+						}
 					}
 
 					for wr3Idx := range AllPlayers[5] {
 						testRoster[5] = AllPlayers[5][wr3Idx]
-						EraseRosterAfterLevel(testRoster, 5)
-						if !UnderSalaryCap(testRoster, SalaryCapAtLevel(5)) {
-							continue
+						if wr3Idx < 17 {
+							EraseRosterAfterLevel(testRoster, 5)
+							if !UnderSalaryCap(testRoster, SalaryCapAtLevel(5)) {
+								continue
+							}
+							if UnderSalaryCap(testRoster, SalaryMinAtLevel(5)) {
+								continue
+							}
 						}
-
-						if UnderSalaryCap(testRoster, SalaryMinAtLevel(5)) {
-							continue
-						}
-
 						for teIdx := range AllPlayers[6] {
 							testRoster[6] = AllPlayers[6][teIdx]
 
