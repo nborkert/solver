@@ -1,9 +1,5 @@
 package solver
 
-import (
-//	"fmt"
-)
-
 func CreateRosters() []Player {
 	c := make(chan []Player)       //c is the channel used to send rosters to later processing
 	workComplete := make(chan int) //workComplete is the channel used to send an int to indicate
