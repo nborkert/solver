@@ -3,7 +3,7 @@ package solver
 import (
 	"strconv"
 	"strings"
-//	"fmt"
+	//	"fmt"
 )
 
 type Player struct {
@@ -28,7 +28,7 @@ var AllPlayers [][]Player
 
 func CreatePlayersArrays() [][]Player {
 	/* Below commented-out code does not return consistent ordering of arrays.
-	This is by design in Go. 
+	This is by design in Go.
 	for position := range playersByPosition {
 		AllPlayers = append(AllPlayers, playersByPosition[position])
 	}

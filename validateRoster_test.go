@@ -75,4 +75,8 @@ func TestValidateRoster(t *testing.T) {
 	if !DuplicatePlayersFound(roster3) {
 		t.Errorf("AHHHH %v\n", roster3)
 	}
+
+	EraseRosterAfterLevel(roster3, 2)
+	fmt.Printf("roster3 after erasing after level 2 = %v\n", roster3)
+
 }

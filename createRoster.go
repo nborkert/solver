@@ -39,7 +39,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 			for wr1Idx := range AllPlayers[3] {
 				testRoster[3] = AllPlayers[3][wr1Idx]
-
+				EraseRosterAfterLevel(testRoster, 3)
 				//check salary with QB, RB1, RB2, and WR1. If already too expensive,
 				//try next WR1.
 				if !UnderSalaryCap(testRoster, SalaryCapAtLevel(3)) {
@@ -52,7 +52,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 				for wr2Idx := range AllPlayers[4] {
 					testRoster[4] = AllPlayers[4][wr2Idx]
-
+					EraseRosterAfterLevel(testRoster, 4)
 					if !UnderSalaryCap(testRoster, SalaryCapAtLevel(4)) {
 						continue
 					}
@@ -63,7 +63,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 					for wr3Idx := range AllPlayers[5] {
 						testRoster[5] = AllPlayers[5][wr3Idx]
-
+						EraseRosterAfterLevel(testRoster, 5)
 						if !UnderSalaryCap(testRoster, SalaryCapAtLevel(5)) {
 							continue
 						}
@@ -81,21 +81,20 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 								for dIdx := range AllPlayers[8] {
 									testRoster[8] = AllPlayers[8][dIdx]
 									//fmt.Printf("Madeit to level8 with roster %v\n", testRoster)
-									fmt.Printf("Salary with roster %v = %v\n", testRoster, RosterSalary(testRoster))
+									//		fmt.Printf("Salary with roster %v = %v\n", testRoster, RosterSalary(testRoster))
 									if UnderSalaryCap(testRoster, salaryCap) {
 										if !DuplicatePlayersFound(testRoster) {
 											//Now test to see if this roster
 											//has the most points yet
-											fmt.Printf("Found NODUPS for this roster above%v\n", testRoster)
 											testRosterPoints = PointsForRoster(testRoster)
 											if testRosterPoints > winningPoints {
 												winningPoints = testRosterPoints
 												//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
 												//winningRoster = append(winningRoster, testRoster...)
 												copy(winningRoster, testRoster)
-													fmt.Printf("testRoster = %v\n", testRoster)
-													fmt.Printf("winningRoster = %v\n", winningRoster)
-													fmt.Printf("WinningPoints so far = %v\n", winningPoints)
+												fmt.Printf("testRoster = %v\n", testRoster)
+												fmt.Printf("winningRoster = %v\n", winningRoster)
+												fmt.Printf("WinningPoints so far = %v\n", winningPoints)
 											}
 										}
 									}

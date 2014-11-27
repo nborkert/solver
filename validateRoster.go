@@ -9,6 +9,14 @@ const minWinningRosterSalary int = 57000 //This is the minimum salary expected f
 const minPlayerSalary int = 4500         //4500 on real data
 const maxPlayerSalary int = 9000         //9000 on real data
 
+func EraseRosterAfterLevel(roster []Player, level int) {
+	for i := range roster {
+		if i > level {
+			roster[i] = Player{"", "", "", 0.0, 0}
+		}
+	}
+}
+
 //Insure a player is not on the roster twice and that the cost of the roster is under or equal to the salary cap
 //Returns roster if valid, nil if not valid
 func ValidateRoster(roster []Player) []Player {
