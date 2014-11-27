@@ -10,6 +10,9 @@ func CreateRosters() []Player {
 	//that all candidate rosters have been sent from a given goroutine
 	var i = 0 //will be used to count the number of goroutines launched
 
+	fmt.Printf("Size of AllPlayers: %v\n", len(AllPlayers))
+	fmt.Printf("Number of QBs: %v\n", len(AllPlayers[0]))
+
 	for _, player := range AllPlayers[0] {
 		go CreateFootballRosters(player, c, workComplete)
 		i++

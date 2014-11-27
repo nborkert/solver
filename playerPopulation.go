@@ -3,7 +3,7 @@ package solver
 import (
 	"strconv"
 	"strings"
-	"fmt"
+//	"fmt"
 )
 
 type Player struct {
@@ -28,27 +28,22 @@ var AllPlayers [][]Player
 
 func CreatePlayersArrays() [][]Player {
 	/* Below commented-out code does not return consistent ordering of arrays.
-	This is by design in Go.
+	This is by design in Go. 
 	for position := range playersByPosition {
 		AllPlayers = append(AllPlayers, playersByPosition[position])
 	}
 	*/
-	fmt.Printf("Making AllPlayers, current %v\n", AllPlayers)
-	AllPlayers := make([][]Player, 9)
-	
-	fmt.Printf("Making AllPlayers, current %v\n", AllPlayers)
-	AllPlayers[0] = playersByPosition["QB"]
+	//AllPlayers := make([][]Player, 9)
+	AllPlayers = append(AllPlayers, playersByPosition["QB"])
+	AllPlayers = append(AllPlayers, playersByPosition["RB1"])
+	AllPlayers = append(AllPlayers, playersByPosition["RB2"])
+	AllPlayers = append(AllPlayers, playersByPosition["WR1"])
+	AllPlayers = append(AllPlayers, playersByPosition["WR2"])
+	AllPlayers = append(AllPlayers, playersByPosition["WR3"])
+	AllPlayers = append(AllPlayers, playersByPosition["TE"])
+	AllPlayers = append(AllPlayers, playersByPosition["K"])
+	AllPlayers = append(AllPlayers, playersByPosition["D"])
 
-
-	fmt.Printf("Making AllPlayers, current %v\n", AllPlayers)
-	AllPlayers[1] = playersByPosition["RB1"]
-	AllPlayers[2] = playersByPosition["RB2"]
-	AllPlayers[3] = playersByPosition["WR1"]
-	AllPlayers[4] = playersByPosition["WR2"]
-	AllPlayers[5] = playersByPosition["WR3"]
-	AllPlayers[6] = playersByPosition["TE"]
-	AllPlayers[7] = playersByPosition["K"]
-	AllPlayers[8] = playersByPosition["D"]
 	return AllPlayers
 
 }
