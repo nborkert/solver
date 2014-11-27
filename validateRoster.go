@@ -5,9 +5,9 @@ import (
 )
 
 const salaryCap int = 60000
-const minWinningRosterSalary int = 57000 //This is the minimum salary expected for winning rosters
-const minPlayerSalary int = 4500
-const maxPlayerSalary int = 9000
+const minWinningRosterSalary int = 50000 //This is the minimum salary expected for winning rosters
+const minPlayerSalary int = 4500         //4500 on real data
+const maxPlayerSalary int = 9000         //9000 on real data
 
 //Insure a player is not on the roster twice and that the cost of the roster is under or equal to the salary cap
 //Returns roster if valid, nil if not valid
