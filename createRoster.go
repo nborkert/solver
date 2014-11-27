@@ -10,9 +10,6 @@ func CreateRosters() []Player {
 	//that all candidate rosters have been sent from a given goroutine
 	var i = 0 //will be used to count the number of goroutines launched
 
-	fmt.Printf("Size of AllPlayers: %v\n", len(AllPlayers))
-	fmt.Printf("Number of QBs: %v\n", len(AllPlayers[0]))
-
 	for _, player := range AllPlayers[0] {
 		go CreateFootballRosters(player, c, workComplete)
 		i++
@@ -77,27 +74,28 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 						for teIdx := range AllPlayers[6] {
 							testRoster[6] = AllPlayers[6][teIdx]
-							fmt.Printf("Madeit to level6 with roster %v\n", testRoster)
+
 							for kIdx := range AllPlayers[7] {
 								testRoster[7] = AllPlayers[7][kIdx]
 
 								for dIdx := range AllPlayers[8] {
 									testRoster[8] = AllPlayers[8][dIdx]
-									fmt.Printf("Madeit to level8 with roster %v\n", testRoster)
+									//fmt.Printf("Madeit to level8 with roster %v\n", testRoster)
+									fmt.Printf("Salary with roster %v = %v\n", testRoster, RosterSalary(testRoster))
 									if UnderSalaryCap(testRoster, salaryCap) {
 										if !DuplicatePlayersFound(testRoster) {
 											//Now test to see if this roster
 											//has the most points yet
-											//		fmt.Printf("Found no dups for this roster above%v\n", testRoster)
+											fmt.Printf("Found NODUPS for this roster above%v\n", testRoster)
 											testRosterPoints = PointsForRoster(testRoster)
 											if testRosterPoints > winningPoints {
 												winningPoints = testRosterPoints
 												//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
 												//winningRoster = append(winningRoster, testRoster...)
 												copy(winningRoster, testRoster)
-												//	fmt.Printf("testRoster = %v\n", testRoster)
-												//	fmt.Printf("winningRoster = %v\n", winningRoster)
-												//	fmt.Printf("WinningPoints so far = %v\n", winningPoints)
+													fmt.Printf("testRoster = %v\n", testRoster)
+													fmt.Printf("winningRoster = %v\n", winningRoster)
+													fmt.Printf("WinningPoints so far = %v\n", winningPoints)
 											}
 										}
 									}
@@ -118,8 +116,6 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 //This function indicates what the salary cap is after adding the player at the indicated level.
 //Level 0 is the QB, level 8 is the D.
 func SalaryCapAtLevel(level int) int {
-	var capis int = (salaryCap - ((8 - level) * minPlayerSalary))
-	fmt.Printf("Salary cap at level %v is %v\n", level, capis)
 	return (salaryCap - ((8 - level) * minPlayerSalary))
 }
 
@@ -127,7 +123,5 @@ func SalaryCapAtLevel(level int) int {
 //the given level. If salary is not the minimum, it doesn't have a chance to beat the
 //expected minimum salary for a winning roster.
 func SalaryMinAtLevel(level int) int {
-	var c int = (minWinningRosterSalary - ((8 - level) * maxPlayerSalary))
-	fmt.Printf("Salary min at level %v is %v\n", level, c)
 	return (minWinningRosterSalary - ((8 - level) * maxPlayerSalary))
 }
