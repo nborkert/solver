@@ -3,7 +3,6 @@ package solver
 import (
 	"strconv"
 	"strings"
-	//	"fmt"
 )
 
 type Player struct {
@@ -22,7 +21,7 @@ This should be mentally considered as a two-dimensional layout of players by pos
 QBs [Peyton Manning] [Tom Brady] [Carson Palmer]
 RB1 [Lesean McCoy]   [Demarco Murray]
 RB2 [Lesean McCoy]   [Demarco Murray]
-etc. for each position and player
+etc. for each position and player in this order: QB, RB1, RB2, WR1, WR2, WR3, TE, K, D
 */
 var AllPlayers [][]Player
 
@@ -33,7 +32,6 @@ func CreatePlayersArrays() [][]Player {
 		AllPlayers = append(AllPlayers, playersByPosition[position])
 	}
 	*/
-	//AllPlayers := make([][]Player, 9)
 	AllPlayers = append(AllPlayers, playersByPosition["QB"])
 	AllPlayers = append(AllPlayers, playersByPosition["RB1"])
 	AllPlayers = append(AllPlayers, playersByPosition["RB2"])
@@ -57,8 +55,6 @@ func CreatePlayer(dataLine string) Player {
 	playerToAdd.PlayerName = playerData[1]
 	playerToAdd.Team = playerData[2]
 	playerToAdd.ProjectedPoints, _ = strconv.ParseFloat(playerData[3], 64)
-	//playerToAdd.Salary, _ = strconv.ParseInt(playerData[4], 0, 64)
-
 	playerToAdd.Salary, _ = strconv.Atoi(playerData[4])
 	return playerToAdd
 }

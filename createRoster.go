@@ -1,7 +1,7 @@
 package solver
 
 import (
-	"fmt"
+//	"fmt"
 )
 
 func CreateRosters() []Player {
@@ -80,8 +80,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 								for dIdx := range AllPlayers[8] {
 									testRoster[8] = AllPlayers[8][dIdx]
-									//fmt.Printf("Madeit to level8 with roster %v\n", testRoster)
-									//		fmt.Printf("Salary with roster %v = %v\n", testRoster, RosterSalary(testRoster))
+
 									if UnderSalaryCap(testRoster, salaryCap) {
 										if !DuplicatePlayersFound(testRoster) {
 											//Now test to see if this roster
@@ -92,9 +91,6 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 												//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
 												//winningRoster = append(winningRoster, testRoster...)
 												copy(winningRoster, testRoster)
-												fmt.Printf("testRoster = %v\n", testRoster)
-												fmt.Printf("winningRoster = %v\n", winningRoster)
-												fmt.Printf("WinningPoints so far = %v\n", winningPoints)
 											}
 										}
 									}
@@ -106,8 +102,6 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 			}
 		}
 	}
-	//fmt.Printf("Winning points = %v\n", winningPoints)
-	//fmt.Printf("Winning roster = %v\n", winningRoster)
 	c <- winningRoster
 	workComplete <- 1
 }
