@@ -1,9 +1,5 @@
 package solver
 
-import (
-//"fmt"
-)
-
 const salaryCap int = 60000
 const minWinningRosterSalary int = 57000 //This is the minimum salary expected for winning rosters
 const minPlayerSalary int = 4500         //4500 on real data
@@ -34,22 +30,18 @@ func DuplicatePlayersFound(roster []Player) bool {
 	for basePos, basePlayer := range roster {
 		for movingPos, movingPlayer := range roster {
 			if (movingPlayer.PlayerName == basePlayer.PlayerName) && (movingPlayer.Team == basePlayer.Team) && (basePos != movingPos) {
-				//								fmt.Printf("FOUNDDUPONROSTER %v and %v\n", basePlayer, movingPlayer)
 				return true
 			}
 		}
 	}
-	//		fmt.Printf("NODUPSFOUND on roster %v\n", roster)
 	return false
 }
 
 func UnderSalaryCap(roster []Player, max int) bool {
 	total := RosterSalary(roster)
 	if total > max {
-		//			fmt.Printf("Overcap of %v for roster %v\n", max, roster)
 		return false
 	}
-	//fmt.Printf("Undercap of %v for roster %v\n", max, roster)
 	return true
 }
 
