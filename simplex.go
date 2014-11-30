@@ -22,7 +22,22 @@ var M int
 var N int
 var basis []int
 
+//Entry point. Creates matrices based on AllPlayers array of arrays,
+//executes the solver, performs post-processing adjustments,
+//and returns roster.
 func CreateSimplexRoster() []Player {
+	//Create matrices needed for CreateSimplexTableaux
+
+	//Call CreateSimplexTableaux
+
+	//Call Solve
+
+	//Call Primal to get decision variable vector
+
+	//Check vector for anomalies like picking the same player twice
+
+	//Adjust roster as needed
+
 	return nil
 }
 
@@ -57,13 +72,10 @@ func CreateSimplexTableaux(A [][]float64, b []float64, c []float64) {
 	for i := 0; i < M; i++ {
 		basis[i] = N + i
 	}
-
-	Solve()
-
 }
 
-//CONVERT THIS TO GO AND TEST THE TABLEAU
-// print tableaux
+// print tableaux.
+// This is not needed during normal operation, only used for testing
 func Show() {
 	fmt.Printf("M = %v\n", M)
 	fmt.Printf("N = %v\n", N)
