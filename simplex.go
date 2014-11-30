@@ -11,23 +11,27 @@
 
 package solver
 
+import (
+	"fmt"
+)
+
 const EPSILON float64 = 0.0000000001
 
-//var a [][]float64
-//var M int
-//var N int
-//var basis []int
+var a [][]float64
+var M int
+var N int
+var basis []int
 
 func CreateSimplexRoster() []Player {
 	return nil
 }
 
-// sets up the simplex tableaux and 
+// sets up the simplex tableaux and
 func CreateSimplexTableaux(A [][]float64, b []float64, c []float64) {
-	M := len(b)
-	N := len(c)
+	M = len(b)
+	N = len(c)
 	//var a [M + 1][N + M + 1]float64
-	a := make([][]float64, M+1)
+	a = make([][]float64, M+1)
 	for i := range a {
 		a[i] = make([]float64, N+M+1)
 	}
@@ -48,7 +52,7 @@ func CreateSimplexTableaux(A [][]float64, b []float64, c []float64) {
 		a[i][M+N] = b[i]
 	}
 
-	basis := make([]int, M)
+	basis = make([]int, M)
 
 	for i := 0; i < M; i++ {
 		basis[i] = N + i
@@ -56,6 +60,26 @@ func CreateSimplexTableaux(A [][]float64, b []float64, c []float64) {
 
 	Solve()
 
+}
+
+//CONVERT THIS TO GO AND TEST THE TABLEAU
+// print tableaux
+func Show() {
+	fmt.Printf("M = %v\n", M)
+	fmt.Printf("N = %v\n", N)
+	for i := 0; i <= M; i++ {
+		for j := 0; j <= M+N; j++ {
+			fmt.Printf("%v ", a[i][j])
+		}
+		fmt.Printf(" %v\n", 10)
+	}
+	fmt.Printf("value = %v\n ", -a[M][M+N])
+	for i := 0; i < M; i++ {
+		if basis[i] < N {
+			fmt.Printf("x_%v = %v ", basis[i], a[i][M+N])
+		}
+	}
+	fmt.Printf(" %v\n", 10)
 }
 
 func Solve() []Player {
