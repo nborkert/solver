@@ -28,21 +28,43 @@ var basis []int
 func CreateSimplexRoster() []Player {
 	//Create matrices needed for CreateSimplexTableaux
 
-	//Call CreateSimplexTableaux
+	c := []float64{13.0, 23.0}
+	b := []float64{480.0, 160.0, 1190.0}
 
-	//Call Solve
+	//A := [][]float64{{5.0, 15.0}, {4.0, 4.0}, {35.0, 20.0},}
+	A := make([][]float64, 3)
+	for i := range A {
+		A[i] = make([]float64, 2)
+	}
+	A[0][0] = 5.0
+	A[0][1] = 15.0
+	A[1][0] = 4.0
+	A[1][1] = 4.0
+	A[2][0] = 35.0
+	A[2][1] = 20.0
+
+	//Call CreateSimplexTableaux
+	createSimplexTableaux(A, b, c)
+
+	//Call Solve, returns nil if there was an error or unbounded solution
+	if !solve() {
+		return nil
+	}
 
 	//Call Primal to get decision variable vector
+	fmt.Printf("Result = %v\n", primal())
 
 	//Check vector for anomalies like picking the same player twice
 
 	//Adjust roster as needed
 
+	//create roster of Player structs
+
 	return nil
 }
 
 // sets up the simplex tableaux and
-func CreateSimplexTableaux(A [][]float64, b []float64, c []float64) {
+func createSimplexTableaux(A [][]float64, b []float64, c []float64) {
 	M = len(b)
 	N = len(c)
 	//var a [M + 1][N + M + 1]float64
@@ -76,7 +98,7 @@ func CreateSimplexTableaux(A [][]float64, b []float64, c []float64) {
 
 // print tableaux.
 // This is not needed during normal operation, only used for testing
-func Show() {
+func show() {
 	fmt.Printf("M = %v\n", M)
 	fmt.Printf("N = %v\n", N)
 	for i := 0; i <= M; i++ {
@@ -94,7 +116,118 @@ func Show() {
 	fmt.Printf(" %v\n", 10)
 }
 
-func Solve() []Player {
+//returns true if successful finding a solution, false if not
+func solve() bool {
+	var result bool = false
+	for true {
+		// find entering column q
+		q := bland()
+		if q == -1 {
+			result = true
+			break // optimal
+		}
 
-	return nil
+		// find leaving row p
+		p := minRatioRule(q)
+		if p == -1 {
+			result = false
+			break //unbounded
+		}
+
+		// pivot
+		pivot(p, q)
+
+		// update basis
+		basis[p] = q
+
+	}
+
+	return result
+}
+
+// lowest index of a non-basic column with a positive cost
+func bland() int {
+	for j := 0; j < M+N; j++ {
+		if a[M][j] > 0 {
+			return j
+		}
+	}
+	return -1 // optimal
+}
+
+// index of a non-basic column with most positive cost
+func dantzig() int {
+	q := 0
+	for j := 1; j < M+N; j++ {
+		if a[M][j] > a[M][q] {
+			q = j
+		}
+	}
+
+	if a[M][q] <= 0 {
+		return -1 // optimal
+	} else {
+		return q
+	}
+}
+
+// find row p using min ratio rule (-1 if no such row)
+func minRatioRule(q int) int {
+	p := -1
+	for i := 0; i < M; i++ {
+		if a[i][q] <= 0 {
+			continue
+		} else if p == -1 {
+			p = i
+		} else if (a[i][M+N] / a[i][q]) < (a[p][M+N] / a[p][q]) {
+			p = i
+		}
+	}
+	return p
+}
+
+// pivot on entry (p, q) using Gauss-Jordan elimination
+func pivot(p int, q int) {
+
+	// everything but row p and column q
+	for i := 0; i <= M; i++ {
+		for j := 0; j <= M+N; j++ {
+			if i != p && j != q {
+				a[i][j] -= a[p][j] * a[i][q] / a[p][q]
+			}
+		}
+	}
+
+	// zero out column q
+	for i := 0; i <= M; i++ {
+		if i != p {
+			a[i][q] = 0.0
+		}
+	}
+
+	// scale row p
+	for j := 0; j <= M+N; j++ {
+		if j != q {
+			a[p][j] /= a[p][q]
+		}
+	}
+
+	a[p][q] = 1.0
+}
+
+// return optimal objective value
+func value() float64 {
+	return -a[M][M+N]
+}
+
+// return primal solution vector
+func primal() []float64 {
+	x := make([]float64, N)
+	for i := 0; i < M; i++ {
+		if basis[i] < N {
+			x[basis[i]] = a[i][M+N]
+		}
+	}
+
+	return x
 }
