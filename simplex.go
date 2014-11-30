@@ -1,6 +1,6 @@
 package solver
 
-func CreateSimplexRosters() []Player {
+func CreateSimplexRoster() []Player {
 	return nil
 }
 
