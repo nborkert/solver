@@ -27,11 +27,32 @@ var basis []int
 //and returns roster.
 func CreateSimplexRoster() []Player {
 	//Create matrices needed for CreateSimplexTableaux
+	//Matrices are A: a 2-D array where the first row is player salaries. 
+	//Subsequent rows are filled with "1" or "0" where a "1" indicates that 
+	//the player in that position of the array plays the position held by that row.
+	//For example, a QB in the third position of SingleList would have his salary
+	//in the third element of the first row, a "1" in the third element of the second row, 
+	//and "0"s in all other rows.
+	//Position rows are in order of QB, RB, WR, TE, K, and D.
+	A := make([][]float64, 7)
+	for i := range A {
+		A[i] = make([]float64, len(SingleList))
+	}
 
-	c := []float64{13.0, 23.0}
-	b := []float64{480.0, 160.0, 1190.0}
+	//Matrix b is a 1-D array of constraints where the first element is the total 
+	//allowable salary for a roster, and other elements indicate the number of 
+	//players at the indicated position on the roster. Position of the element
+	//matches the position rows found in matrix A.
+	b := make([]float64, 7)
+
+	//Matrix c is a 1-D array of projected points per player.
+	c := make([]float64, len(SingleList))
+
+	//c := []float64{13.0, 23.0}
+	//b := []float64{480.0, 160.0, 1190.0}
 
 	//A := [][]float64{{5.0, 15.0}, {4.0, 4.0}, {35.0, 20.0},}
+	/*
 	A := make([][]float64, 3)
 	for i := range A {
 		A[i] = make([]float64, 2)
@@ -42,7 +63,7 @@ func CreateSimplexRoster() []Player {
 	A[1][1] = 4.0
 	A[2][0] = 35.0
 	A[2][1] = 20.0
-
+*/
 	//Call CreateSimplexTableaux
 	createSimplexTableaux(A, b, c)
 
