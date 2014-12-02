@@ -1,6 +1,7 @@
 package solver
 
 import (
+//	"fmt"
 	"testing"
 )
 
@@ -67,4 +68,14 @@ func TestAddPlayer(t *testing.T) {
 		t.Errorf("Expected 1 RB1, %v found\n", len(allPlayers[1]))
 	}
 
+	roster := AddPlayerToSingleList(p4)
+	roster = AddPlayerToSingleList(p5)
+	roster = AddPlayerToSingleList(p7)
+	//fmt.Printf("roster = %v\n", roster)
+	if roster == nil {
+		t.Error("Expected non-ni, received nil for roster")
+	}
+	if len(roster) != 3 {
+		t.Error("Expected 3 members of roster, didn't find 3")
+	}
 }

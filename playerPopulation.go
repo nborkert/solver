@@ -25,6 +25,13 @@ etc. for each position and player in this order: QB, RB1, RB2, WR1, WR2, WR3, TE
 */
 var AllPlayers [][]Player
 
+var SingleList []Player
+
+func AddPlayerToSingleList(toAdd Player) []Player {
+	SingleList = append(SingleList, toAdd)
+	return SingleList
+}
+
 func CreatePlayersArrays() [][]Player {
 	/* Below commented-out code does not return consistent ordering of arrays.
 	This is by design in Go.
