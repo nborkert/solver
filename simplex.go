@@ -68,14 +68,19 @@ func CreateSimplexRoster(listOfPlayers []Player) []Player {
 		return nil
 	}
 
-	//Call Primal to get decision variable vector
-	fmt.Printf("Result = %v\n", primal())
+	winningRoster := make([]Player)
+	decisionVector := primal()
+	for i, val := range decisionVector {
+		if val > 0.0001 { //this player was found to contribute to the winning roster
+			winningRoster = append(winningRoster, listOfPlayers[i])
+		}
+	}
+	fmt.Printf("Result = %v\n", winningRoster)
 
 	//Check vector for anomalies like picking the same player twice
 
 	//Adjust roster as needed
 
-	//create roster of Player structs
 
 	return nil
 }
