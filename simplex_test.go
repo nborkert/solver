@@ -49,5 +49,8 @@ func TestSimplex(t *testing.T) {
 	*/
 	//	createSimplexTableaux(A, b, c)
 	//	show()
-	roster = CreateSimplexRoster()
+
+	if len(roster) != 4 {
+		t.Errorf("Not right roster len")
+	}
 }

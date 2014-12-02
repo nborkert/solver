@@ -25,7 +25,7 @@ var basis []int
 //Entry point. Creates matrices based on SingleList array of Player structs,
 //executes the solver, performs post-processing adjustments,
 //and returns roster.
-func CreateSimplexRoster() []Player {
+func CreateSimplexRoster(listOfPlayers []Player) []Player {
 	//Create matrices needed for CreateSimplexTableaux
 	//Matrices are A: a 2-D array where the first row is player salaries. 
 	//Subsequent rows are filled with "1" or "0" where a "1" indicates that 
@@ -36,7 +36,7 @@ func CreateSimplexRoster() []Player {
 	//Position rows are in order of QB, RB, WR, TE, K, and D.
 	A := make([][]float64, 7)
 	for i := range A {
-		A[i] = make([]float64, len(SingleList))
+		A[i] = make([]float64, len(listOfPlayers))
 	}
 
 	//Matrix b is a 1-D array of constraints where the first element is the total 
@@ -44,27 +44,23 @@ func CreateSimplexRoster() []Player {
 	//players at the indicated position on the roster. Position of the element
 	//matches the position rows found in matrix A.
 	b := make([]float64, 7)
+	b[0] = 60000.0
+	b[1] = 1.0 //1 QB
+	b[2] = 2.0 //2 RB
+	b[3] = 3.0 //3 WR
+	b[4] = 1.0 //1 TE
+	b[5] = 1.0 //1 K
+	b[6] = 1.0 //1 D
 
 	//Matrix c is a 1-D array of projected points per player.
-	c := make([]float64, len(SingleList))
+	c := make([]float64, len(listOfPlayers))
 
-	//c := []float64{13.0, 23.0}
-	//b := []float64{480.0, 160.0, 1190.0}
-
-	//A := [][]float64{{5.0, 15.0}, {4.0, 4.0}, {35.0, 20.0},}
-	/*
-	A := make([][]float64, 3)
-	for i := range A {
-		A[i] = make([]float64, 2)
+	for i, playerToAdd := range listOfPlayers {
+		c[i] = playerToAdd.ProjectedPoints
+		A[0][i] = float64(playerToAdd.Salary)
+		addPositionDataToInputMatrix(A, i, playerToAdd.Position)
 	}
-	A[0][0] = 5.0
-	A[0][1] = 15.0
-	A[1][0] = 4.0
-	A[1][1] = 4.0
-	A[2][0] = 35.0
-	A[2][1] = 20.0
-*/
-	//Call CreateSimplexTableaux
+
 	createSimplexTableaux(A, b, c)
 
 	//Call Solve, returns nil if there was an error or unbounded solution
@@ -82,6 +78,31 @@ func CreateSimplexRoster() []Player {
 	//create roster of Player structs
 
 	return nil
+}
+
+func addPositionDataToInputMatrix(matrix [][]float64, i int, position string) {
+	switch position {
+	case "QB":
+		matrix[1][i] = 1.0
+		matrix[2][i], matrix[3][i], matrix[4][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+	case "RB":
+		matrix[2][i] = 1.0
+		matrix[1][i], matrix[3][i], matrix[4][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+	case "WR":
+		matrix[3][i] = 1.0
+		matrix[1][i], matrix[2][i], matrix[4][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+	case "TE":
+		matrix[4][i] = 1.0
+		matrix[1][i], matrix[2][i], matrix[3][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+	case "K":
+		matrix[5][i] = 1.0
+		matrix[1][i], matrix[2][i], matrix[3][i], matrix[4][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+	case "D":
+		matrix[6][i] = 1.0
+		matrix[1][i], matrix[2][i], matrix[3][i], matrix[4][i], matrix[5][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+	default:
+		fmt.Printf("Error, did not find an acceptable position")
+	}
 }
 
 // sets up the simplex tableaux and
