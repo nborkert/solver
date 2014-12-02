@@ -27,11 +27,11 @@ var basis []int
 //and returns roster.
 func CreateSimplexRoster(listOfPlayers []Player) []Player {
 	//Create matrices needed for CreateSimplexTableaux
-	//Matrices are A: a 2-D array where the first row is player salaries. 
-	//Subsequent rows are filled with "1" or "0" where a "1" indicates that 
+	//Matrices are A: a 2-D array where the first row is player salaries.
+	//Subsequent rows are filled with "1" or "0" where a "1" indicates that
 	//the player in that position of the array plays the position held by that row.
 	//For example, a QB in the third position of SingleList would have his salary
-	//in the third element of the first row, a "1" in the third element of the second row, 
+	//in the third element of the first row, a "1" in the third element of the second row,
 	//and "0"s in all other rows.
 	//Position rows are in order of QB, RB, WR, TE, K, and D.
 	A := make([][]float64, 7)
@@ -39,8 +39,8 @@ func CreateSimplexRoster(listOfPlayers []Player) []Player {
 		A[i] = make([]float64, len(listOfPlayers))
 	}
 
-	//Matrix b is a 1-D array of constraints where the first element is the total 
-	//allowable salary for a roster, and other elements indicate the number of 
+	//Matrix b is a 1-D array of constraints where the first element is the total
+	//allowable salary for a roster, and other elements indicate the number of
 	//players at the indicated position on the roster. Position of the element
 	//matches the position rows found in matrix A.
 	b := make([]float64, 7)
@@ -58,7 +58,43 @@ func CreateSimplexRoster(listOfPlayers []Player) []Player {
 	for i, playerToAdd := range listOfPlayers {
 		c[i] = playerToAdd.ProjectedPoints
 		A[0][i] = float64(playerToAdd.Salary)
-		addPositionDataToInputMatrix(A, i, playerToAdd.Position)
+		switch playerToAdd.Position {
+		case "QB":
+			A[1][i] = 1.0
+			A[2][i], A[3][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "RB":
+			A[2][i] = 1.0
+			A[1][i], A[3][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "RB1":
+			A[2][i] = 1.0
+			A[1][i], A[3][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "RB2":
+			A[2][i] = 1.0
+			A[1][i], A[3][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "WR":
+			A[3][i] = 1.0
+			A[1][i], A[2][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "WR1":
+			A[3][i] = 1.0
+			A[1][i], A[2][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "WR2":
+			A[3][i] = 1.0
+			A[1][i], A[2][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "WR3":
+			A[3][i] = 1.0
+			A[1][i], A[2][i], A[4][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "TE":
+			A[4][i] = 1.0
+			A[1][i], A[2][i], A[3][i], A[5][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "K":
+			A[5][i] = 1.0
+			A[1][i], A[2][i], A[3][i], A[4][i], A[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		case "D":
+			A[6][i] = 1.0
+			A[1][i], A[2][i], A[3][i], A[4][i], A[5][i] = 0.0, 0.0, 0.0, 0.0, 0.0
+		default:
+			fmt.Printf("Error, did not find an acceptable position\n")
+		}
 	}
 
 	createSimplexTableaux(A, b, c)
@@ -68,11 +104,12 @@ func CreateSimplexRoster(listOfPlayers []Player) []Player {
 		return nil
 	}
 
-	winningRoster := make([]Player)
+	winningRoster := make([]Player, 0)
 	decisionVector := primal()
 	for i, val := range decisionVector {
 		if val > 0.0001 { //this player was found to contribute to the winning roster
 			winningRoster = append(winningRoster, listOfPlayers[i])
+			fmt.Printf("Player %v contributed %v\n", listOfPlayers[i].PlayerName, val)
 		}
 	}
 	fmt.Printf("Result = %v\n", winningRoster)
@@ -81,33 +118,7 @@ func CreateSimplexRoster(listOfPlayers []Player) []Player {
 
 	//Adjust roster as needed
 
-
-	return nil
-}
-
-func addPositionDataToInputMatrix(matrix [][]float64, i int, position string) {
-	switch position {
-	case "QB":
-		matrix[1][i] = 1.0
-		matrix[2][i], matrix[3][i], matrix[4][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
-	case "RB":
-		matrix[2][i] = 1.0
-		matrix[1][i], matrix[3][i], matrix[4][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
-	case "WR":
-		matrix[3][i] = 1.0
-		matrix[1][i], matrix[2][i], matrix[4][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
-	case "TE":
-		matrix[4][i] = 1.0
-		matrix[1][i], matrix[2][i], matrix[3][i], matrix[5][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
-	case "K":
-		matrix[5][i] = 1.0
-		matrix[1][i], matrix[2][i], matrix[3][i], matrix[4][i], matrix[6][i] = 0.0, 0.0, 0.0, 0.0, 0.0
-	case "D":
-		matrix[6][i] = 1.0
-		matrix[1][i], matrix[2][i], matrix[3][i], matrix[4][i], matrix[5][i] = 0.0, 0.0, 0.0, 0.0, 0.0
-	default:
-		fmt.Printf("Error, did not find an acceptable position")
-	}
+	return winningRoster
 }
 
 // sets up the simplex tableaux and
