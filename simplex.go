@@ -22,7 +22,7 @@ var M int
 var N int
 var basis []int
 
-//Entry point. Creates matrices based on AllPlayers array of arrays,
+//Entry point. Creates matrices based on SingleList array of Player structs,
 //executes the solver, performs post-processing adjustments,
 //and returns roster.
 func CreateSimplexRoster() []Player {
