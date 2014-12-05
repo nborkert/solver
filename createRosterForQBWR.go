@@ -80,7 +80,7 @@ func CreateFootballRostersForQBWR(rootNode Player, c chan []Player, workComplete
 										//has the most points yet
 										testRosterPoints = PointsForRoster(testRoster)
 										if testRosterPoints > minPoints {
-											fmt.Printf("Points: %v\nRoster:%v\n\n", testRosterPoints, testRoster)
+											fmt.Printf("%v,%v\n", testRosterPoints, testRoster)
 										}
 										if testRosterPoints > winningPoints {
 											winningPoints = testRosterPoints
