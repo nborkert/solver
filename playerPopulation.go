@@ -53,6 +53,27 @@ func CreatePlayersArrays() [][]Player {
 
 }
 
+
+func CreatePlayersArraysForQBWR() [][]Player {
+	/* Below commented-out code does not return consistent ordering of arrays.
+	This is by design in Go.
+	for position := range playersByPosition {
+		AllPlayers = append(AllPlayers, playersByPosition[position])
+	}
+	*/
+	AllPlayers = append(AllPlayers, playersByPosition["QB"])
+	AllPlayers = append(AllPlayers, playersByPosition["RB1"])
+	AllPlayers = append(AllPlayers, playersByPosition["RB2"])
+	AllPlayers = append(AllPlayers, playersByPosition["WR1"])
+	AllPlayers = append(AllPlayers, playersByPosition["WR2"])
+	AllPlayers = append(AllPlayers, playersByPosition["TE"])
+	AllPlayers = append(AllPlayers, playersByPosition["K"])
+	AllPlayers = append(AllPlayers, playersByPosition["D"])
+
+	return AllPlayers
+
+}
+
 func CreatePlayer(dataLine string) Player {
 	//Expect format Position,PlayerName,Team,ProjectedPoints,Salary. ProjectedPoints could be decimal format.
 	//Example: QB,Peyton Manning,DEN,10,30000
