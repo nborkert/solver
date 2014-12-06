@@ -1,13 +1,17 @@
 package solver
 
-func CreateRosters() []Player {
+import (
+	"fmt"
+)
+
+func CreateRosters(minPoints float64) []Player {
 	c := make(chan []Player)       //c is the channel used to send rosters to later processing
 	workComplete := make(chan int) //workComplete is the channel used to send an int to indicate
 	//that all candidate rosters have been sent from a given goroutine
 	var i = 0 //will be used to count the number of goroutines launched
 
 	for _, player := range AllPlayers[0] {
-		go CreateFootballRosters(player, c, workComplete)
+		go CreateFootballRosters(player, c, workComplete, minPoints)
 		i++
 	}
 	return FindWinningRoster(c, workComplete, i)
@@ -19,7 +23,7 @@ func CreateRosters() []Player {
 //Hard-coded with assumptions that a roster will have these positions:
 //QB, RB1, RB2, WR1, WR2, WR3, TE, K, D.
 //The salaryCap var is set in ValidateRoster.go
-func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int) {
+func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int, minPoints float64) {
 	testRoster := make([]Player, 9)
 	winningPoints := 0.0
 	testRosterPoints := 0.0
@@ -31,6 +35,9 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 		testRoster[1] = AllPlayers[1][rb1Idx]
 
 		for rb2Idx := range AllPlayers[2] {
+			if rb2Idx <= rb1Idx {
+				continue
+			}
 			testRoster[2] = AllPlayers[2][rb2Idx]
 
 			for wr1Idx := range AllPlayers[3] {
@@ -50,6 +57,10 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 					}
 				}
 				for wr2Idx := range AllPlayers[4] {
+					if wr2Idx <= wr1Idx {
+						continue
+					}
+
 					testRoster[4] = AllPlayers[4][wr2Idx]
 					if wr2Idx < 17 {
 						EraseRosterAfterLevel(testRoster, 4)
@@ -62,6 +73,9 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 					}
 
 					for wr3Idx := range AllPlayers[5] {
+						if wr3Idx <= wr2Idx {
+							continue
+						}
 						testRoster[5] = AllPlayers[5][wr3Idx]
 						if wr3Idx < 17 {
 							EraseRosterAfterLevel(testRoster, 5)
@@ -86,6 +100,9 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 											//Now test to see if this roster
 											//has the most points yet
 											testRosterPoints = PointsForRoster(testRoster)
+											if testRosterPoints > minPoints && RosterSalary(testRoster) > 59500 {
+												fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
+											}
 											if testRosterPoints > winningPoints {
 												winningPoints = testRosterPoints
 												//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
