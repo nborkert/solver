@@ -100,7 +100,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 										//Now test to see if this roster
 										//has the most points yet
 										testRosterPoints = PointsForRoster(testRoster)
-										if testRosterPoints > minPoints && RosterSalary(testRoster) > 59500 {
+										if testRosterPoints > minPoints && RosterSalary(testRoster) > minWinningRosterSalary {
 											rosterNumber++
 											if math.Mod(rosterNumber, 100.0) == 0 {
 												fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
