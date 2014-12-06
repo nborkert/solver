@@ -53,7 +53,6 @@ func CreatePlayersArrays() [][]Player {
 
 }
 
-
 func CreatePlayersArraysForQBWR() [][]Player {
 	/* Below commented-out code does not return consistent ordering of arrays.
 	This is by design in Go.

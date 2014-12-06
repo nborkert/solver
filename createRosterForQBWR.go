@@ -35,6 +35,9 @@ func CreateFootballRostersForQBWR(rootNode Player, c chan []Player, workComplete
 		testRoster[1] = AllPlayers[1][rb1Idx]
 
 		for rb2Idx := range AllPlayers[2] {
+			if rb2Idx <= rb1Idx {
+				continue
+			}
 			testRoster[2] = AllPlayers[2][rb2Idx]
 
 			for wr1Idx := range AllPlayers[3] {
@@ -54,6 +57,10 @@ func CreateFootballRostersForQBWR(rootNode Player, c chan []Player, workComplete
 					}
 				}
 				for wr2Idx := range AllPlayers[4] {
+					if wr2Idx <= wr1Idx {
+						continue
+					}
+
 					testRoster[4] = AllPlayers[4][wr2Idx]
 					if wr2Idx < 17 {
 						EraseRosterAfterLevel(testRoster, 4)
@@ -79,8 +86,8 @@ func CreateFootballRostersForQBWR(rootNode Player, c chan []Player, workComplete
 										//Now test to see if this roster
 										//has the most points yet
 										testRosterPoints = PointsForRoster(testRoster)
-										if testRosterPoints > minPoints {
-											fmt.Printf("%v,%v\n", testRosterPoints, testRoster)
+										if testRosterPoints > minPoints && RosterSalary(testRoster) > 59500 {
+											fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster) , testRoster)
 										}
 										if testRosterPoints > winningPoints {
 											winningPoints = testRosterPoints
@@ -101,4 +108,3 @@ func CreateFootballRostersForQBWR(rootNode Player, c chan []Player, workComplete
 	c <- winningRoster
 	workComplete <- 1
 }
-
