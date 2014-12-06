@@ -96,19 +96,17 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 									testRoster[8] = AllPlayers[8][dIdx]
 
 									if UnderSalaryCap(testRoster, salaryCap) {
-										if !DuplicatePlayersFound(testRoster) {
-											//Now test to see if this roster
-											//has the most points yet
-											testRosterPoints = PointsForRoster(testRoster)
-											if testRosterPoints > minPoints && RosterSalary(testRoster) > 59500 {
-												fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
-											}
-											if testRosterPoints > winningPoints {
-												winningPoints = testRosterPoints
-												//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
-												//winningRoster = append(winningRoster, testRoster...)
-												copy(winningRoster, testRoster)
-											}
+										//Now test to see if this roster
+										//has the most points yet
+										testRosterPoints = PointsForRoster(testRoster)
+										if testRosterPoints > minPoints && RosterSalary(testRoster) > 59500 {
+											fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
+										}
+										if testRosterPoints > winningPoints {
+											winningPoints = testRosterPoints
+											//winningRoster = testRoster THIS doesn't make a safe copy, seems to retain the pointer
+											//winningRoster = append(winningRoster, testRoster...)
+											copy(winningRoster, testRoster)
 										}
 									}
 								}

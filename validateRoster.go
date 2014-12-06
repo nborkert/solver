@@ -16,25 +16,10 @@ func EraseRosterAfterLevel(roster []Player, level int) {
 //Insure a player is not on the roster twice and that the cost of the roster is under or equal to the salary cap
 //Returns roster if valid, nil if not valid
 func ValidateRoster(roster []Player) []Player {
-	if DuplicatePlayersFound(roster) {
-		return nil
-	}
 	if !UnderSalaryCap(roster, salaryCap) {
 		return nil
 	}
 	return roster
-}
-
-// Players are deemed duplicate if they have the same name and team and appear in different positions in the roster array
-func DuplicatePlayersFound(roster []Player) bool {
-	for basePos, basePlayer := range roster {
-		for movingPos, movingPlayer := range roster {
-			if (movingPlayer.PlayerName == basePlayer.PlayerName) && (movingPlayer.Team == basePlayer.Team) && (basePos != movingPos) {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 func UnderSalaryCap(roster []Player, max int) bool {
