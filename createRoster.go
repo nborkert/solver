@@ -2,6 +2,7 @@ package solver
 
 import (
 	"fmt"
+	"math"
 )
 
 func CreateRosters(minPoints float64) []Player {
@@ -28,7 +29,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 	winningPoints := 0.0
 	testRosterPoints := 0.0
 	winningRoster := make([]Player, 9)
-
+	var rosterNumber float64 = 0.0
 	testRoster[0] = rootNode
 
 	for rb1Idx := range AllPlayers[1] {
@@ -100,7 +101,10 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 										//has the most points yet
 										testRosterPoints = PointsForRoster(testRoster)
 										if testRosterPoints > minPoints && RosterSalary(testRoster) > 59500 {
-											fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
+											rosterNumber++
+											if math.Mod(rosterNumber, 100.0) == 0 {
+												fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
+											}
 										}
 										if testRosterPoints > winningPoints {
 											winningPoints = testRosterPoints
