@@ -2,7 +2,6 @@ package solver
 
 import (
 	"fmt"
-	"math"
 )
 
 func CreateRosters(minPoints float64) []Player {
@@ -29,7 +28,6 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 	winningPoints := 0.0
 	testRosterPoints := 0.0
 	winningRoster := make([]Player, 9)
-	var rosterNumber float64 = 0.0
 	testRoster[0] = rootNode
 
 	for rb1Idx := range AllPlayers[1] {
@@ -43,50 +41,20 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 			for wr1Idx := range AllPlayers[3] {
 				testRoster[3] = AllPlayers[3][wr1Idx]
-				//Experiments have shown that this optimization is overcome by the overhead
-				//of performing the test after we reach 15 players
-				if wr1Idx < 17 {
-					EraseRosterAfterLevel(testRoster, 3)
-					//check salary with QB, RB1, RB2, and WR1. If already too expensive,
-					//try next WR1.
-					if !UnderSalaryCap(testRoster, SalaryCapAtLevel(3)) {
-						continue
-					}
-					//check salary again for minimum level
-					if UnderSalaryCap(testRoster, SalaryMinAtLevel(3)) {
-						continue
-					}
-				}
+
 				for wr2Idx := range AllPlayers[4] {
 					if wr2Idx <= wr1Idx {
 						continue
 					}
 
 					testRoster[4] = AllPlayers[4][wr2Idx]
-					if wr2Idx < 17 {
-						EraseRosterAfterLevel(testRoster, 4)
-						if !UnderSalaryCap(testRoster, SalaryCapAtLevel(4)) {
-							continue
-						}
-						if UnderSalaryCap(testRoster, SalaryMinAtLevel(4)) {
-							continue
-						}
-					}
 
 					for wr3Idx := range AllPlayers[5] {
 						if wr3Idx <= wr2Idx {
 							continue
 						}
 						testRoster[5] = AllPlayers[5][wr3Idx]
-						if wr3Idx < 17 {
-							EraseRosterAfterLevel(testRoster, 5)
-							if !UnderSalaryCap(testRoster, SalaryCapAtLevel(5)) {
-								continue
-							}
-							if UnderSalaryCap(testRoster, SalaryMinAtLevel(5)) {
-								continue
-							}
-						}
+
 						for teIdx := range AllPlayers[6] {
 							testRoster[6] = AllPlayers[6][teIdx]
 
@@ -95,16 +63,13 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 
 								for dIdx := range AllPlayers[8] {
 									testRoster[8] = AllPlayers[8][dIdx]
-
+									//fmt.Printf("%v,%v,%v\n", PointsForRoster(testRoster), RosterSalary(testRoster), testRoster)
 									if UnderSalaryCap(testRoster, salaryCap) {
 										//Now test to see if this roster
 										//has the most points yet
 										testRosterPoints = PointsForRoster(testRoster)
 										if testRosterPoints > minPoints && RosterSalary(testRoster) > minWinningRosterSalary {
-											rosterNumber++
-											if math.Mod(rosterNumber, 100.0) == 0 {
-												fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
-											}
+											fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
 										}
 										if testRosterPoints > winningPoints {
 											winningPoints = testRosterPoints
