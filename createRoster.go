@@ -1,7 +1,10 @@
 package solver
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
 )
 
 func CreateRosters(minPoints float64) []Player {
@@ -24,6 +27,14 @@ func CreateRosters(minPoints float64) []Player {
 //QB, RB1, RB2, WR1, WR2, WR3, TE, K, D.
 //The salaryCap var is set in ValidateRoster.go
 func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int, minPoints float64) {
+	outputFile, err := os.Create(rootNode.PlayerName)
+	if err != nil {
+		fmt.Printf("Could not open file for writing results for QB %v\n", rootNode.PlayerName)
+		panic(err)
+	}
+	defer outputFile.Close()
+	outputWriter := bufio.NewWriter(outputFile)
+
 	testRoster := make([]Player, 9)
 	winningPoints := 0.0
 	testRosterPoints := 0.0
@@ -69,7 +80,8 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 										//has the most points yet
 										testRosterPoints = PointsForRoster(testRoster)
 										if testRosterPoints > minPoints && RosterSalary(testRoster) > minWinningRosterSalary {
-											fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
+											//fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
+											outputWriter.WriteString(strconv.FormatFloat(testRosterPoints, 'f', 3, 64) + "," + strconv.Itoa(RosterSalary(testRoster)) + "," + PrintRoster(testRoster)+"\n")
 										}
 										if testRosterPoints > winningPoints {
 											winningPoints = testRosterPoints
@@ -86,6 +98,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 			}
 		}
 	}
+	outputWriter.Flush()
 	c <- winningRoster
 	workComplete <- 1
 }
@@ -101,4 +114,12 @@ func SalaryCapAtLevel(level int) int {
 //expected minimum salary for a winning roster.
 func SalaryMinAtLevel(level int) int {
 	return (minWinningRosterSalary - ((8 - level) * maxPlayerSalary))
+}
+
+func PrintRoster(roster []Player) string {
+	result := ""
+	for _, player := range roster{
+		result = result + player.Position +","+ player.PlayerName +","+ player.Team + " "
+	}
+	return result
 }
