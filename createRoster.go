@@ -81,7 +81,7 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 										testRosterPoints = PointsForRoster(testRoster)
 										if testRosterPoints > minPoints && RosterSalary(testRoster) > minWinningRosterSalary {
 											//fmt.Printf("%v,%v,%v\n", testRosterPoints, RosterSalary(testRoster), testRoster)
-											outputWriter.WriteString(strconv.FormatFloat(testRosterPoints, 'f', 3, 64) + "," + strconv.Itoa(RosterSalary(testRoster)) + "," + PrintRoster(testRoster)+"\n")
+											outputWriter.WriteString(strconv.FormatFloat(testRosterPoints, 'f', 3, 64) + "," + strconv.Itoa(RosterSalary(testRoster)) + "," + PrintRoster(testRoster) + "\n")
 										}
 										if testRosterPoints > winningPoints {
 											winningPoints = testRosterPoints
@@ -118,8 +118,8 @@ func SalaryMinAtLevel(level int) int {
 
 func PrintRoster(roster []Player) string {
 	result := ""
-	for _, player := range roster{
-		result = result + player.Position +","+ player.PlayerName +","+ player.Team + " "
+	for _, player := range roster {
+		result = result + player.Position + "," + player.PlayerName + "," + player.Team + " "
 	}
 	return result
 }
