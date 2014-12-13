@@ -5,6 +5,7 @@ type PlayerStack struct {
 	Team            string
 	ProjectedPoints float64
 	Value           float64
+	Salary          int
 }
 
 type ByVal []PlayerStack

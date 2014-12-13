@@ -13,15 +13,6 @@ func EraseRosterAfterLevel(roster []Player, level int) {
 	}
 }
 
-//Insure a player is not on the roster twice and that the cost of the roster is under or equal to the salary cap
-//Returns roster if valid, nil if not valid
-func ValidateRoster(roster []Player) []Player {
-	if !UnderSalaryCap(roster, salaryCap) {
-		return nil
-	}
-	return roster
-}
-
 func UnderSalaryCap(roster []Player, max int) bool {
 	total := RosterSalary(roster)
 	if total > max {

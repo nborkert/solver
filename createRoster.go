@@ -27,7 +27,7 @@ func CreateRosters(minPoints float64) []Player {
 //QB, RB1, RB2, WR1, WR2, WR3, TE, K, D.
 //The salaryCap var is set in ValidateRoster.go
 func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan int, minPoints float64) {
-	outputFile, err := os.Create(rootNode.PlayerName)
+	outputFile, err := os.Create("output" + rootNode.PlayerName + ".txt")
 	if err != nil {
 		fmt.Printf("Could not open file for writing results for QB %v\n", rootNode.PlayerName)
 		panic(err)
