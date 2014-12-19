@@ -119,7 +119,7 @@ func SalaryMinAtLevel(level int) int {
 func PrintRoster(roster []Player) string {
 	result := ""
 	for _, player := range roster {
-		result = result + player.Position + "," + player.PlayerName + "," + player.Team + " "
+		result = result + player.Position + "," + player.PlayerName + "," + player.Team + ","
 	}
 	return result
 }

@@ -32,6 +32,13 @@ func AddPlayerToSingleList(toAdd Player) []Player {
 	return SingleList
 }
 
+
+var WRList []Player
+func AddPlayerToWRList(toAdd Player) []Player {
+	WRList = append(WRList, toAdd)
+	return WRList
+}
+
 func CreatePlayersArrays() [][]Player {
 	/* Below commented-out code does not return consistent ordering of arrays.
 	This is by design in Go.
