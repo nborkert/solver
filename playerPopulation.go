@@ -32,8 +32,8 @@ func AddPlayerToSingleList(toAdd Player) []Player {
 	return SingleList
 }
 
-
 var WRList []Player
+
 func AddPlayerToWRList(toAdd Player) []Player {
 	WRList = append(WRList, toAdd)
 	return WRList

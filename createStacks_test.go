@@ -1,8 +1,8 @@
 package solver
 
 import (
-	"testing"
 	"sort"
+	"testing"
 )
 
 //Sort is performed with max at beginning of array after sort
@@ -22,7 +22,6 @@ func TestSortStackByVal(t *testing.T) {
 	if stacks[0].PlayerNames != "CC" {
 		t.Errorf("Did not find stack CC at highest value after sorting ByVal")
 	}
-
 
 	sort.Sort(ByPoints(stacks))
 

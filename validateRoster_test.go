@@ -36,7 +36,6 @@ func TestValidateRoster(t *testing.T) {
 		t.Errorf("Failed test of PointsForRoster calculation.")
 	}
 
-
 	roster3 := make([]Player, 6)
 	roster3[0] = playerA
 	roster3[1] = playerC

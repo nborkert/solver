@@ -18,11 +18,14 @@ func TestAddPlayer(t *testing.T) {
 
 	player2 := "RB1,Yo,SEA,32.33,40000"
 	playerAdded2 := CreatePlayer(player2)
-	if playerAdded2.Position != "RB1" {
-		t.Error("Expected RB, received %v", playerAdded2.Position)
+	if playerAdded2.PlayerName != "Yo" {
+		t.Error("Expected name of Yo, received %v", playerAdded2.PlayerName)
 	}
-	if playerAdded2.ProjectedPoints != 32.33 {
-		t.Error("Expected 32.33, received %v", playerAdded2.ProjectedPoints)
+	if playerAdded2.Salary != 40000 {
+		t.Error("Expected salary of 40000, received %v", playerAdded2.Salary)
+	}
+	if playerAdded2.Team != "SEA" {
+		t.Error("Expected team of SEA, received %v", playerAdded2.Team)
 	}
 
 	testResult := AddPlayerToPopulation(playerAdded2)
@@ -77,5 +80,11 @@ func TestAddPlayer(t *testing.T) {
 	}
 	if len(roster) != 3 {
 		t.Error("Expected 3 members of roster, didn't find 3")
+	}
+
+	WRRoster := AddPlayerToWRList(p4)
+	WRRoster = AddPlayerToWRList(p5)
+	if len(WRRoster) != 2 {
+		t.Error("Expected 2 members of WRList, didn't receive 2. Check AddPlayerToWRList function.")
 	}
 }
