@@ -103,23 +103,10 @@ func CreateFootballRosters(rootNode Player, c chan []Player, workComplete chan i
 	workComplete <- 1
 }
 
-//This function indicates what the salary cap is after adding the player at the indicated level.
-//Level 0 is the QB, level 8 is the D.
-func SalaryCapAtLevel(level int) int {
-	return (salaryCap - ((8 - level) * minPlayerSalary))
-}
-
-//This function indicates the minimum salary a roster must have after adding the player at
-//the given level. If salary is not the minimum, it doesn't have a chance to beat the
-//expected minimum salary for a winning roster.
-func SalaryMinAtLevel(level int) int {
-	return (minWinningRosterSalary - ((8 - level) * maxPlayerSalary))
-}
-
 func PrintRoster(roster []Player) string {
 	result := ""
 	for _, player := range roster {
-		result = result + player.Position + "," + player.PlayerName + "," + player.Team + ","
+		result = result + player.Position +"," + player.PlayerName + "," +player.Team + ","
 	}
 	return result
 }
