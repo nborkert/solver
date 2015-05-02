@@ -1,0 +1,78 @@
+{ "players": {
+    "ranksource":"CBS",
+    "list" : [
+    {
+        "playerName": "Matthew Stafford",
+        "team": "DET",
+        "position": "QB",
+        "points": 17.3,
+        "salary": 11500,
+        "rank": 3,
+        "playerID": 4
+    },
+    {
+        "playerName": "Lamar Miller",
+        "team": "MIA",
+        "position": "RB",
+        "points": 10.88,
+        "salary": 6700,
+        "rank": 2,
+        "playerID": 5
+    },
+    {
+        "playerName": "Daniel Herron",
+        "team": "IND",
+        "position": "RB",
+        "points": 8.9,
+        "salary": 6000,
+        "rank": 3,
+        "playerID": 6
+    },
+    {
+        "playerName": "Odell Beckham Jr.",
+        "team": "NYG",
+        "position": "WR",
+        "points": 18.95,
+        "salary": 9200,
+        "rank": 1,
+        "playerID": 7
+    },
+    {
+        "playerName": "Jordy Nelson",
+        "team": "GB",
+        "position": "WR",
+        "points": 16.31,
+        "salary": 6700,
+        "rank": 2,
+        "playerID": 8
+    },
+    {
+        "playerName": "Jimmy Graham",
+        "team": "NO",
+        "position": "TE",
+        "points": 15.64,
+        "salary": 6700,
+        "rank": 1,
+        "playerID": 9
+    },
+    {
+        "playerName": "Connor Barth",
+        "team": "DEN",
+        "position": "K",
+        "points": 8.98,
+        "salary": 5000,
+        "rank": 3,
+        "playerID": 15
+    },
+    {
+        "playerName": "BAL Defense",
+        "team": "BAL",
+        "position": "D",
+        "points": 12.36,
+        "salary": 5200,
+        "rank": 3,
+        "playerID": 18
+    }
+    ]
+}
+}

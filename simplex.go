@@ -22,7 +22,7 @@ var M int
 var N int
 var basis []int
 
-//Entry point. Creates matrices based on SingleList array of Player structs,
+//Entry point. Creates matrices based on an array of Player structs,
 //executes the solver, performs post-processing adjustments,
 //and returns roster.
 func CreateSimplexRoster(listOfPlayers []Player) []Player {
@@ -30,7 +30,7 @@ func CreateSimplexRoster(listOfPlayers []Player) []Player {
 	//Matrices are A: a 2-D array where the first row is player salaries.
 	//Subsequent rows are filled with "1" or "0" where a "1" indicates that
 	//the player in that position of the array plays the position held by that row.
-	//For example, a QB in the third position of SingleList would have his salary
+	//For example, a QB in the third position of the listOfPlayers arguemnt would have his salary
 	//in the third element of the first row, a "1" in the third element of the second row,
 	//and "0"s in all other rows.
 	//Position rows are in order of QB, RB, WR, TE, K, and D.
